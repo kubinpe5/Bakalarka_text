@@ -1,0 +1,118 @@
+\section{DublinCore}
+\par DublinCore je soubor metadatových prvků, jehož sílem je umožnit rychlé a snadné vyhledávání v elektronických zdrojích. Původně byl vytvořen jako popis metadat v WWW, postupně zaujal vyšší instituce a experty z různých odvětví, například muzeí, kni\~ho\~ven a dalších komerčních ogranizací.
+\par TODO
+ 
+%Vedení Dublin Core sídlí ve Spojených státech, konkrétně v OCLC ve státě Ohio v Úřadu pro výzkum a speciální dokumenty. Struktura Dublin Core %je v současnosti používána ve 20 zemích Severní Ameriky, Evropy, Asie a Austrálie a počet zemí se postupně zvyšuje.%
+%
+%Na základě výzvy pracovní skupiny "Dublin Core in Multiple Languages" pracuje Knihovnicko-informační centrum Masarykovy university v Brně ve %spolupráci se specialisty v oblasti knihoven na vytvoření české verze metadatového standardu 'Dublin Core' pro popis a podporu vyhledávání %elektronických informačních zdrojů v českém prostředí.%
+%
+%V první fázi jde o překlad standardu a doprovodných materiálů, a jejich zpřístupnění na těchto stránkách. V další fázi půjde o hlubší adaptaci %pro české prostředí jak samotného standardu tak i celé škály existujících nástrojů a prostředků pro jeho využívání v systémech digitálních %knihoven a WWW-vyhledávačů, a o zapojení do mezinárodní spolupráce na dalším vývoji standardu.%
+%
+%
+%Charakteristika
+%Dublin Core je soubor metadatových prvků, jehož záměrem je usnadnit vyhledávání elektronických zdrojů. Původně byl vytvořen jako popis zdrojů %na WWW sestavený přímo autorem, postupně ale zaujal instituce zabývající se formálním zpracováním zdrojů, jako jsou muzea, knihovny, vládní %agentury a komerční organizace.%
+%
+%Charakteristiky, které staví Dublin Core do pozice předního kandidáta pro popis elektronických zdrojů, je možné rozdělit do následujících %kategorií:%
+%
+%JEDNODUCHOST
+%Záměrem Dublin Core je, aby byl použitelný jak laiky tak specialisty v oblasti popisu dokumentů. Většina prvků má všeobecně srozumitelnou %sémantiku přibližně ve složitosti knihovního katalogizačního lístku.%
+%
+%SÉMANTICKÁ INTEROPERABILITA
+%Různorodé modely popisu blokují v prostředí Internetu možnost vyhledávání napříč vědními obory. Prosazování všeobecně srozumitelného souboru %deskriptorů, které umožní unifikovat ostatní standardy pro určování obsahu dat zvyšuje možnost sémantické interoperability mezi různými %systémy v rozdílných oborech.%
+%
+%MEZINÁRODNÍ KONSENSUS
+%Uvědomění si mezinárodního dosahu zpřístupňování zdrojů na Webu je rozhodujícím momentem pro vývoj efektivní infrastruktury pro zpřístupňování %elektronických zdrojů v prostředí globální informační sítě. Dublin Core těží z aktivní účasti a prosazování v asi 20 zemích Severní Ameriky, %Evropy, Austrálie a Asie.%
+%
+%ROZŠIŘITELNOST
+%Dublin Core poskytuje ekonomickou alternativu k podrobnějšímu a složitějšímu modelu popisu, jakým je katalogizace v plném MARC formátu (běžná %ve světě knihoven). Navíc v sobě zahrnuje užitečnou flexibilitu a rozšiřitelnost pro kódování struktury a komplikovanější sémantiku, které %jsou vlastní bohatším standardům popisu.%
+%
+%MODULARITA METADAT NA WEBu
+%Různorodost potřeb metadat na Webu vyžaduje infrastrukturu, která podporuje koexistenci vzájemně se doplňujících, samostatně udržovaných %souborů metadat. Konsorcium World Wide Web (W3C) začalo s implementací architektury pro metadata pro Web; na podporu rozdílných potřeb me%tadat %pro dodavatele a poskytovatele informací je navrhnutý Rámec popisu zdrojů (Resource description Framework, či RDF). Zástupci iniciativy D%ublin %Core jsou aktivně zapojeni ve vývoji této architektury a vytvářejí tak digitálním knihovnám perspektivu ovlivnit důležitou složku %infrastruktury Webu.%
+%
+%MODIFIKOVATELNOST
+%Každý prvek v Dublin Core má definici, která by měla být naprosto jasná. Je také ovšem nutné, aby definice prvků uspokojovaly potřeby %rozdílných komunit. Tento cíl se dá splnit umožněním modifikovat každý prvek Dublin Core libovolným kvalifikátorem: když není kvalifikátor %přítomen, prvek má svůj všeobecně chápaný význam; jinak je definice prvku modifikována hodnotou kvalifikátoru.
+
+
+\subsection{Historie DublinCore}
+\par První setkání tvůrců DublinCore bylo v březnu 1995. Jejich cílem bylo popsat elektronická data, na základě sémantických pravidel a byla zde uvedena problematika vyhledávání v elektronických dokumentech.
+
+\par Druhý seminář se konal o rok později v dubnu 1996. Tvůrce tentokrát hostilo město Warwick ve Velké Británii. Po přiblížení problematiky mezinárodní komunitě se zaměřili na problém syntaxe a sémantiky, kterou by byly schopné efektivně zpracovat Webové aplikace. Rychlé zavedení technologie DublinCore do Webových aplikací vedlo k rychlému rozšíření této metody do světa. Na tomto setkání byl vytvořen základ architektury metadat, Warwick Framework.
+
+\par V září 1996 byl další seminář přesunut do Spojených států amerických do města Dublin. Hostil převážně experty na grafiku, kteří spolu s tvůrci DublinCore diskutovali o spojení mezi vizuální a textovou částí metadat. Měli za cíl spojit požadavky DublinCore a Warwick Frameworku.
+
+\par Další krok ve vývoji se odehrál v roce 1997 ve městě Canbery v Austrálii. Hlavní myšlenou bylo učinit popis více minimalistický a lépe ho strukturovat. Šlo o zjednodušení a upravení popisu pro následná další rozšíření, neboť každý jistě ví, že na hliněných nohách se kvalitní barák postavit nedá. Proto celé specifikaci dali stejnou strukturu a učinili jí minimalistickou.
+
+\par Další semináře se konali v říjnu 1997 v Helsinkách, kde byl kladen důraz na datum, pusobnost a vztah. Ve Washingtonu v roce 1998 bylo svolané setkání, pro sjednocení různých implementací DublinCore. Další seminář byl rekordní v počtu odborníků. Sešlo se jich 120 z 27 zemí. Další semináře už nastíním pouze pomocí tabulky.
+
+\begin{tabular}{| l | l | l |}
+\hline
+Rok & Město & Země\\
+\hline
+2000 & Otawa & Kanada\\
+\hline
+2001 & Tokyo & Japonsko\\
+\hline
+2002 & Florencie & Itálie\\
+\hline
+2003 & Seatle & Washington, USA\\
+\hline
+2004 & Sanghai & Čína\\
+\hline
+2005 & Madrid & Španělsko\\
+\hline
+2006 & Manzanillo, Colima & Mexico\\
+\hline
+2007 & Singapur & Singapur\\
+\hline
+2008 & Berlin & Německo\\
+\hline
+2009 & Soul & Jižní Korea\\
+\hline
+2010 & Pittsburgh & Pennsylvania, USA\\
+\hline
+2011 & Haag & Nizozemí\\
+\hline
+2012 & Kuching, Sarawak & Malaysie\\
+\hline
+2013 & Lisabon & Portugalsko\\
+\hline
+2014 & Austin & Texas, USA\\
+\hline
+\end{tabular}
+
+\subsection{Prvky DublinCore}
+\begin{tabular}{| l | l | l |}
+\hline
+Popisek & Definice & Komentář\\
+\hline
+Přispěvatel(contributor) & Subjekt zodpovědný za zdroj příspěvku. & Například jméno osoby, organizace, nebo služby.\\
+\hline
+Krytí(coverage) & Prostorová a časová použitelnost zdroje. & Například označení místa geografickými souřadnice mi, nebo lhůta či časové období.\\
+\hline
+Tvůrce(creator) & Subjekt zodpovědný za zpřístupnění zdroje. & Napříkald jméno osoby, organizace, nebo služby.\\
+\hline
+Datum(date) & Doba spojená s událostí v životním cyklu zdroje. & Vyjádření časové informace. \\
+\hline
+Popis(describtion) & Popis dané entity. & Popis může být textový nebo grafický. \\
+\hline
+Formát(format) & Formát souboru, fyzický nosič, nebo rozměry zdroje. & Například délka trvání videa. \\
+\hline
+Identifikátor(identifier) & Primářní klíč zdroje. & Řetězec maximálně dvanácti znaků mezi ?v= a \&, nebo koncem URL.\\
+\hline
+Jazyk & Jazyk zdroje. & YouTube API neposkytuje přímý přístup k jazyku, proto ho nebudu do mých metadat používat.\\
+\hline
+Vydavatel & To samé co Tvůrce. & Zde mají v metadatech duplicitu. \\
+\hline
+Vztah(relation) & Související zdroje. & V mám případě se jedná o categoryId. \\
+\hline
+Práva(rights) & Informace o právech obsahu. & Tento atribut je v YouTubeAPI popsán dvěmi entitami. LicensedContent a License.\\
+\hline
+Zdroj(source) & Přibuzný zdroj od kterého je odvozen popsaný zdroj. & Tento atribut v mých metadatech mít nebudu.\\
+\hline
+Předmět(subject) & Téma zdroje. & Toto je znovu entita, kterou YouTubeAPI neobsahuje.\\
+\hline
+Název(title) & Jméno dané zdroji. & Atribut title, který vracím samostatně pro lěpší práci s následným obsahem.\\
+\hline
+Typ(type) & Povaha nebo žánr zdroje & Toto je vždy video.\\
+\hline
+\end{tabular}
