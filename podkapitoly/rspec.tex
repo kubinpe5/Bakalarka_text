@@ -6,7 +6,26 @@
 \par V mé Bakalářské práci budu pracovat s jádrem testovacího nástroje RSpec a očekáváními, neboli expectations. V následujících dvou podkapitolách uvedu postup instalace a ukázky použití daných komponent.
 
 \subsection{RSpec core}
-// TODO psát nebo nepsat
+\par RSpec core je samotné jádro aplikace, na které navazují další moduly. Je nezbytnou částí pro testování. Instalace je šložená ze tří příkazů \textit{gem install rspec}; \textit{gem install rspec-core}; \textit{rspec --help} pro nápovědu k nově nainstalovanému softwaru. První příkaz nainstaluje rspec-core, rspec-expectations a rspec-mocks, což je kompletní balíček pro testování. Druhý příkaz nainstaluje pouze rspec-core, který neobsahuje všechny funkčnosti.
+\par Základní struktura testování je velmi podobná hovoru v angličtině. Používají se slova "describe" a "it", která mají stejný význam jako v mluveném slově.\\
+"Describe an order."\\
+"It sums the prices of its line items."\\
+\begin{minted}{ruby}
+RSpec.describe Order do
+  it "sums the prices of its line items" do
+    order = Order.new
+    order.add\_entry(LineItem.new(:item =\textgreater Item.new(
+      :price =\textgreater Money.new(1.11, :USD)
+    )))
+    order.add\_entry(LineItem.new(:item =\textgreater Item.new(
+      :price =\textgreater Money.new(2.22, :USD),
+      :quantity =\textgreater 2
+    )))
+    expect(order.total).to eq(Money.new(5.55, :USD))
+  end
+end
+\end{minted}
+%\end{displayquote}
 
 \subsection{RSpec expectations}
 // TODO psát nebo nepsat
