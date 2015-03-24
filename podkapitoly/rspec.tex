@@ -26,6 +26,131 @@ RSpec.describe Order do
 end
 \end{minted}
 %\end{displayquote}
+Dále můžeme deklarovat vnořené skupiny pomocí describe, nebo context metod.
+\begin{minted}{ruby}
+RSpec.describe Order do
+  context "with no items" do
+    it "behaves one way" do
+      # ...
+    end
+  end
+
+  context "with one item" do
+    it "behaves another way" do
+      # ...
+    end
+  end
+end
+\end{minted}
+Další ukázky z rspec-core podrobněji rozeberu v části testování ke konci mé práce.
 
 \subsection{RSpec expectations}
-// TODO psát nebo nepsat
+\par Instalace balíčku expectations je naprosto stejná jako instalace rspec-core, ba i jednodušší. Stačí napsat pouze \textit{gem install rspec}, pro použití s rspec core. V případě testování jinými nástroji, které podporují expectations, je příkaz lehce odlišný \textit{gem install rspec-expectations}. Pro použití ve vývojářském režimu master je potřeba doplnit na začátek souboru tento kus kódu:
+\begin{minted}{ruby}
+\%w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
+  gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
+end
+\end{minted}
+\par Použití je velmi intuitivní, neboť je naprosto shodné s projevem v angličtině. Velmi hrubá forma je expect(z čeho).operace(s čím). Souvislý kód poté vypadá například takto:
+\begin{minted}{ruby}
+RSpec.describe Order do
+  it "sums the prices of the items in its line items" do
+    order = Order.new
+    order.add_entry(LineItem.new(:item => Item.new(
+      :price => Money.new(1.11, :USD)
+    )))
+    order.add_entry(LineItem.new(:item => Item.new(
+      :price => Money.new(2.22, :USD),
+      :quantity => 2
+    )))
+    expect(order.total).to eq(Money.new(5.55, :USD))
+  end
+end
+\end{minted}
+\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě false hlášky oznámí terminál co očekával a na dalším řádku co dostal od programu. Velmi snadno se tedy pozná kde nastala chyba.
+
+\begin{longtable}{| p{.40\textwidth} | p{.60\textwidth} |} 
+ \hline\hline
+ Zabudované komparátory & Význam \\ 
+ \hline
+ expect(actual).to eq(exp) & Rovná se ( == ) \\
+ \hline
+ expect(actual).to eql(exp) & Rovná se ( ? ) \\
+ \hline\hline
+ \multicolumn{2}{||c||}{Identita}\\
+ \hline
+ expect(actual).to be(exp) / to equal() & Zda je identické\\
+ \hline\hline
+ \multicolumn{2}{||c||}{Porovnání}\\
+ \hline
+ expect(actual).to be(exp) > / < / >= / <= expected & Operace porovnání \\
+ \hline\hline
+ \multicolumn{2}{||c||}{Regelární výrazy}\\
+ \hline
+ expect(actual).to match(/exp/) & Zda výraz odpovídá exp \\
+ \hline\hline
+ \multicolumn{2}{||c||}{Třídy}\\
+ \hline\hline
+ expect(actual).to be\_an\_instance\_of(exp) & Jestli se aktuální třída == exp \\
+ \hline
+ expect(actual).to be\_a(exp) & Alias k předchozímu \\
+ \hline
+ expect(actual).to be\_an(exp) & Alias k předchozímu  \\
+ \hline
+ expect(actual).to be\_a\_kind\_of(exp) & Alias k předchozímu  \\
+ \hline
+ \multicolumn{2}{||c||}{Boolovské true / false}\\
+ \hline\hline
+ expect(actual).to be\_truthy  & Projde když actual != nil OR false\\
+ \hline
+ expect(actual).to be true    & Projde když actual == true \\
+ \hline
+ expect(actual).to be\_falsy   & Projde když actual == nil OR false \\
+ \hline
+ expect(actual).to be false   & Projde když actual == false \\
+ \hline
+ expect(actual).to be\_nil     & Projde když actual == nil \\
+ \hline
+ expect(actual).to\_not be\_nil & Projde když actual != nil \\
+ \hline
+ \multicolumn{2}{||c||}{Očekávání errorů}\\
+ \hline\hline
+ expect \{ ... \}.to raise\_error & Očekávání, že ... vyvolá error \\
+ \hline
+ expect \{ ... \}.to raise\_error(ErrorClass) & Očekávání, že ... vyvolá error z ErrorClass\\
+ \hline
+ expect \{ ... \}.to raise\_error("message") & Očekávání, že ... error bude stejný jako "message" \\
+ \hline
+ expect \{ ... \}.to raise\_error(ErrorClass, "message")  & Kombinace druhé a třetí varianty \\
+ \hline
+ \multicolumn{2}{||c||}{Vyhození chyby}\\
+ \hline\hline
+ expect \{ ... \}.to throw\_symbol & Očekávání vyhození libovolného symbolu\\ 
+ \hline
+ expect \{ ... \}.to throw\_symbol(:symbol) & Očekávání vyhození symbolu :symbol\\ 
+ \hline
+ expect \{ ... \}.to throw\_symbol(:symbol, 'value') & Vyhození symbolu :symbol s hodnotou 'value'\\ 
+ \hline
+ \multicolumn{2}{||c||}{Členství v kolekci}\\
+ \hline\hline
+ expect(actual).to include(expected) & Splněno, když actual obsahuje expected \\
+ \hline
+ expect(actual).to start\_with(expected) & Actual začíná expected \\
+ \hline
+ expect(actual).to end\_with(expected) & Actual končí expected \\
+ \hline
+ \hline
+\end{longtable}
+
+%Yielding
+%
+%expect { |b| 5.tap(&b) }.to yield_control # passes regardless of yielded args
+%
+%expect { |b| yield_if_true(true, &b) }.to yield_with_no_args # passes only if no args are yielded
+%
+%expect { |b| 5.tap(&b) }.to yield_with_args(5)
+%expect { |b| 5.tap(&b) }.to yield_with_args(Fixnum)
+%expect { |b| "a string".tap(&b) }.to yield_with_args(/str/)
+%
+%expect { |b| [1, 2, 3].each(&b) }.to yield_successive_args(1, 2, 3)
+%expect { |b| { :a => 1, :b => 2 }.each(&b) }.to yield_successive_args([:a, 1], [:b, 2])
