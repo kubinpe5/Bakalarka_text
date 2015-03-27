@@ -1,6 +1,6 @@
 \section {Testovací nástroj RSpec}
 \subsection{Historie}
-\par RSpec vznikl jako experiment Stevena Bakera, Davida Astelse a Aslaka Hellesøe. S vývojem začali v roce 2006, na Ruby on Rails. První vydaná verze 1.0 vyšla o rok později a obsahovala funkce, které má RSpec dodnes. Měl ovšem několik ne úplně efektivně naimplementovaných částí a proto musel být přepsán.
+\par RSpec\cite{davidchelimsky2015} vznikl jako experiment Stevena Bakera, Davida Astelse a Aslaka Hellesøe. S vývojem začali v roce 2006, na Ruby on Rails. První vydaná verze 1.0 vyšla o rok později a obsahovala funkce, které má RSpec dodnes. Měl ovšem několik ne úplně efektivně naimplementovaných částí a proto musel být přepsán.
 \par Koncem roku 2008 zabudoval Chad Humphries "Micronauta", který v sobě obsahoval systém metadat a poskytoval mnohem lepší flexibilitu, než RSpec 1.0. V roce 2010 začali David a Chad pracovat na verzi 2. Chtěli celý projekt rozdělit do mudulů, které by pak mohli pužívat samostatně a navazovat jedním na druhý. Jako jádro posloužil Micronaut, na který navazovali moduly.
 \par Listopad roku 2012 byl pro vývor RSpecu zlomový. David Asteles se rozhodl od projektu odpojit a věnovat se jiným věcem. Lídrem pro RSpec se stal Myron Marston a pro rspec-rails byl nominován Andy Linderman. Nově vytvořený tým začal pracovat na verzi RSpec 3, která byla spojením a vyčištěním všech předchozích verzí dohromady. Po vydání RSpec 3 odešel Andy Linderman do důchodu. Dodnes se RSpec rozvíjí díky velké komunitě spolupracovníků.
 \par V mé Bakalářské práci budu pracovat s jádrem testovacího nástroje RSpec a očekáváními, neboli expectations. V následujících dvou podkapitolách uvedu postup instalace a ukázky použití daných komponent.
@@ -70,9 +70,8 @@ end
 \par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě false hlášky oznámí terminál co očekával a na dalším řádku co dostal od programu. Velmi snadno se tedy pozná kde nastala chyba.
 
 \begin{longtable}{| p{.40\textwidth} | p{.60\textwidth} |} 
+ \textbf{Zabudované komparátory} & \textbf{Význam} \\ 
  \hline\hline
- Zabudované komparátory & Význam \\ 
- \hline
  expect(actual).to eq(exp) & Rovná se ( == ) \\
  \hline
  expect(actual).to eql(exp) & Rovná se ( ? ) \\
