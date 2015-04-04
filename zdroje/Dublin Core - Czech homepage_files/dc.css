@@ -1,0 +1,217 @@
+/* CSS style for DC czech homepage */
+/* Vlastimil Krejcir */
+/* UVT MU 2006 */
+
+body {
+	background-color : #ffffff;
+	font-family : Arial, Helvetica, sans-serif;
+	/*
+	background : url(pozadi-skyblue.gif) top left repeat-y;
+	*/
+	background : url(imgs/pozadi-royalblue.gif) top left repeat-y;
+
+}
+
+img {
+	border-style: none;
+	border-width: 0px;
+}
+
+/* *** Zahlavi strany - logo MU a nadpis *** */
+div.hlavicka {
+	border-style: solid;
+	border-width: 4px;
+	border-color: #191970;
+	background-color: #DCDCDC;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: 4px 4px 4px 4px;
+}
+
+table.hlavicka {
+	border-style: none;
+	width: 100%;
+}
+
+td.logo_mu {
+	text-align: center;
+	width: 160px;
+}
+
+td.dc_czech {
+	text-align: center;
+	padding-top: 20px;
+	padding-left: 15px;
+}
+
+/* *** Menu *** */
+div.menu {
+	border-style: solid;
+	border-width: 4px;
+	border-color: #191970;
+	background-color: #DCDCDC;
+	float: left;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 110%;
+	font-weight: bold;
+	text-align: right;
+	width: 160px;
+	margin: 4px 4px 4px 4px;
+}
+
+div.menu_polozka {
+	margin-top: 18px;
+	margin-bottom: 18px;
+}
+
+div.menu_polozka a{
+	text-decoration: none;
+	color: #0000CD;
+}
+
+div.menu_polozka a:visited {
+	color: #0000CD;
+}
+
+div.menu_polozka a:hover {
+	color: #4169E1;
+}
+
+
+/* *** zapati *** */
+table.zapati {
+	border-style: none;
+	width: 100%;
+}
+
+td.webmaster {
+	font-size: 70%;
+	text-align: right;
+	margin-top: 20px;
+}
+
+td.datum {
+	font-weight: normal;
+	font-size: 70%;
+	text-align: left;
+}
+
+
+/* *** Obsah *** */
+div.obsah {
+	position: absolute;
+	left: 200px;
+	margin-top: 15px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	margin-right: 25px;
+}
+
+h1 {
+	color: #000000;
+	text-align: left;
+}
+
+h2 {
+	color: #000000;
+	text-align: left;
+	margin-bottom: -6px;
+	font-size: 130%;
+	margin-top: 30px;
+}
+
+h3 {
+	color: #000000;
+	text-align: left;
+	font-size: 105%;
+	margin-bottom: -12px;
+}
+
+h4 {
+	color: #696969;
+	font-style: italic;
+}
+
+p {
+	text-align: left;
+}
+
+div.cara {
+	margin-top: 6px;
+	margin-bottom: 6px;
+	border-top: #191970 1px solid;
+}
+
+/* *** dokumenty DCMI *** */
+table.docinfo {
+	border-width: 2px;
+	border-style: groove;
+	border-color: #778899;
+	border-collapse: collapse;
+}
+
+table.docinfo th {
+	text-align: left;
+	border-style: groove;
+	border-width: 2px;
+	border-color: #778899;
+	padding: 3px 3px 3px 3px;
+}
+
+table.docinfo td {
+	text-align: left;
+	border-style: groove;
+	border-width: 2px;
+	border-color: #778899;
+	padding: 3px 3px 3px 3px;
+}
+
+table.definfo {
+	border-style: none;
+	width: 95%;
+	font-size: 100%;
+}
+
+table.definfo td {
+	padding: 1px 1px 1px 1px;
+}
+
+table.dc_prvky {
+	border-style: solid;
+	border-width: 1px;
+	border-collapse: collapse;
+	border-color: #A9A9A9;
+	margin-top: 16px;
+}
+
+table.dc_prvky th {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #A9A9A9;
+	background-color: #DCDCDC;
+	padding: 5px 5px 5px 10px;
+	text-align: left;
+}
+
+table.dc_prvky td {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #A9A9A9;
+	padding: 5px 5px 5px 10px;
+	text-align: left;
+}
+
+div.odkaz_nadpis {
+	font-size: 105%;
+  font-weight: bold;
+	margin-bottom: -6px;
+}
+
+div.footer {
+	font-size: 70%;
+}
