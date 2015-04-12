@@ -13,7 +13,9 @@ module Narra
 \end{minted}
 \par Tímto kusem kódu jsem vytvořil nový modul, který je potomkem Narra::SPI::Connector. Další věc jsem musel řešit validaci url. V případě nevalidní url mi stačilo vrátit false, při úspěchu jsem vracel true. Nejdřívě jsem zkoušel do projektu zakomponovat metodu match. Ta ovšem vracela string místo booleovké hodnoty a proto jsem ji musel nahradit =~. Takto zkonstruovaný výraz by ovšem nefungoval úplně dokonale, neboť při funkční url by vrátil 0. Stačilo výraz lehce poupravit do tvaru !!(url =~ RegExp ) a vše fungovalo jak má.
 \begin{minted}{ruby}
-'!!(url =~ /^(http:\/\/|https:\/\/)?(www\.)?(youtube\.[A-Za-z\.]+|youtu.be\.)\/(watch\?v=)?[A-Za-z0-9\-_]{6,12}(&[A-Za-z0-9\-_]+)*=?.*$/)'
+!!(url =~ /^(http:\/\/|https:\/\/)?(www\.)?(youtube\.[A-Za-z\.]+
+|youtu.be\.)\/(watch\?v=)?[A-Za-z0-9\-_]{6,12}(&[A-Za-z0-9\-_]+)
+*=?.*\$/)
 \end{minted}
 \par Pro vytažení dat z YouTube jsem použil YouTube API v3, konkrétněji adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=můj\_klíč&part=část}, můj\_klíč je vygenerovaný API klíč a část je požadovaná návratová hodnota z YouTube API. Mezi tyto hodnoty patří:
 \begin{itemize} 
@@ -28,10 +30,11 @@ module Narra
 \item{suggestions}
 \item{topicDetails}
 \end{itemize}
-\par Použil jsem jen tři položky. Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore a statistics přidají do obsahu počty sledovaností. Tyto tři položky stačí pro pořadovaná metadata zadavatelem a při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API.
+\par Použil jsem jen čtyři položky. Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a status zobrazí licenci a informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API.
+
 \par Po validaci url jsem musel vytvořit oddělenou metodu pro jméno videa, které je v json objektu reprezentuje title. Nejdřívě jsem zkoumal řešení pomocí již hotového json parseru, což by bylo možná jednodušší, ale poté vyhrála možnost zápisu na dva řádky.
 \begin{minted}{ruby}
 pom = @youtube_json_object_snippet.split('"title": "')[1]
 @name = pom.split("\",\n")[0]
 \end{minted}
-\par Metoda split vytvoří z objektu pole, kde je velmi jednoduché se pomocí příslušného indexu dostat k požadované hodnotě. Rozdělení pomocí "\",\n" je naprosto v pořádku, neboť když někdo zkusí zadat například do popisku videa \",\n tento žetězec YouTube z něj udělá \\",\\n a proto nemůže dojít ke špatnému rozdělení v důsledku špatné sekvence znaků v popiscích. 
+\par Metoda split vytvoří z objektu pole, kde je velmi jednoduché se pomocí příslušného indexu dostat k požadované hodnotě. Rozdělení pomocí \verb|\|",\verb|\|n" je naprosto v pořádku, neboť když někdo zkusí zadat například do popisku videa \verb|\|",\verb|\|n tento žetězec YouTube z něj udělá \verb|\|\verb|\|",\verb|\|\verb|\|n a proto nemůže dojít ke špatnému rozdělení v důsledku špatné sekvence znaků v popiscích. 
