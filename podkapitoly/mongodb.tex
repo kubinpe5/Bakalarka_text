@@ -2,7 +2,7 @@
 \par MongoDB je multiplatformní NoSQL databáze. Nepoužívá klasické tabulky, založené na relační struktuře, ale má svá vlastní schémata ve formáto BSON. Objektová databáze umožňuje rychlejší a lehčí integraci dat. Tvůrcem NoSQL databáze je Americká společnost MongoDB Inc. založená v roce 2007. V roce 2009 přešla společnost MongoDB k open source řešení a stala se součástí významných společností, například BOSH.
 \subsection {Formát BSON}
 \par Formát BSON je nejvíce využíván při ukládání a přenosu dat po síti v neobjektové databázi. Je velmi podobný již známému JSON formátu. Ukládání dat probíhá v binární formě, což je efektivnější z hlediska rychlosti i paměťové náročnosti. V některých případech bude BSON zabírat o něco více místa, neboť potřebuje hlavičku, ve které je uložena délka pole s daty.
-Příklad porovnání: JSON  bude uložené v BSON takto \newline
+Například formát JSON bude uložený v BSONu takto: \newline
 \begin{tabular}{ l l l }
  						& \textbackslash{x}16\textbackslash{x}00\textbackslash{x}00\textbackslash{x}00 								&// total document size \\
  						& \textbackslash{x}02 																						&// 0x02 = type String\\

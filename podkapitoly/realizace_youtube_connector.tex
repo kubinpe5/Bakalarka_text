@@ -1,40 +1,84 @@
-\section{Realizace YouTube konektoru}
-\section{Řešení spolupráce s YouTube API}
+\section{Řešení spolupráce s~YouTube API}
 \subsection{YouTube Data API (v3)}
-\par Tato část rozhraní umožňuje začlenění funkcí YouTube do vlastní aplikace. Proto jí používám pro získání metadat. Nejprve jsem si musel vytvořit google účet a zaregistrovat aplikaci. Pro tento krok slouží \url{https://console.developers.google.com/project}. Každý takto vytvořený projekt má u sebe statistiky s počtem dotazů, počtem chyb, identifikačním řetězcem a názvem. 
-\par Po kliknutí na název mého projektu je možné se dozvědět podrobnější informace a změnit konfiguraci projektu. Základní náhled mi poskytuje graf s počtem požadavků, kde vidím jak moc vytěžuji YouTube API. Dále je zde potřeba nechat si vygenerovat unikátní API klíč, pomocí kterého získávám metadata.
-\par Vlastní implementace je napsaná v jazyce Ruby a vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. 
+\par API v3 umožňuje začlenění funkcí YouTube do vlastní aplikace. Proto jí používám pro získání metadat. Nejprve jsem si musel vytvořit google účet a~zaregistrovat aplikaci. Pro vytvoření google účtu a~zaregistrování slouží \url{https://console.developers.google.com/project}. Každý takto vytvořený projekt má u sebe statistiky s~počtem dotazů, počtem chyb, identifikačním řetězcem a~názvem. 
+\par Po kliknutí na název mého projektu je možné se dozvědět podrobnější informace a~změnit konfiguraci projektu. Základní náhled mi poskytuje graf s~počtem požadavků, kde vidím jak moc vytěžuji YouTube API. Dále je zde potřeba nechat si vygenerovat unikátní API klíč, pomocí kterého získávám metadata.
+
+\section{Třída connector}
+\subsection{Založení aplikace}
+\par // github todo
+
+
+\subsection{Validace a inicializace}
+\par Vlastní implementace je napsaná v jazyce Ruby a~vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. Dále jsem potřeboval knihovny net/http a json pro snažší práci.
 \begin{minted}{ruby}
-require 'narra/spi'
+require 'narra/core'
+require 'net/http'
+require 'json'
 
 module Narra
   module Youtube
     class Connector < Narra::SPI::Connector
 \end{minted}
-\par Tímto kusem kódu jsem vytvořil nový modul, který je potomkem Narra::SPI::Connector. Další věc jsem musel řešit validaci url. V případě nevalidní url mi stačilo vrátit false, při úspěchu jsem vracel true. Nejdřívě jsem zkoušel do projektu zakomponovat metodu match. Ta ovšem vracela string místo booleovké hodnoty a proto jsem ji musel nahradit =~. Takto zkonstruovaný výraz by ovšem nefungoval úplně dokonale, neboť při funkční url by vrátil 0. Stačilo výraz lehce poupravit do tvaru !!(url =~ RegExp ) a vše fungovalo jak má.
+\par Tímto kusem kódu jsem vytvořil nový modul, který je potomkem Narra::\-SPI::Connector. Další věc jsem musel řešit validaci url. V případě nevalidní url mi stačilo vrátit false, při úspěchu jsem vracel true. Nejdřívě jsem zkoušel do projektu zakomponovat metodu match. Ta ovšem vracela string místo booleovké hodnoty a~proto jsem ji musel nahradit =\~. Takto zkonstruovaný výraz by ovšem nefungoval úplně dokonale, neboť při funkční url by vrátil 0. Stačilo výraz lehce poupravit do tvaru !!(url =\~ RegExp ) a~vše fungovalo jak má.
 \begin{minted}{ruby}
-!!(url =~ /^(http:\/\/|https:\/\/)?(www\.)?(youtube\.[A-Za-z\.]+
-|youtu.be\.)\/(watch\?v=)?[A-Za-z0-9\-_]{6,12}(&[A-Za-z0-9\-_]+)
-*=?.*\$/)
+!!(url =~ /^(?:http:\/\/|https:\/\/)?(www\.)?(youtu\.be\/|youtube
+\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){6,11})(\S*)
+?\$/)
 \end{minted}
-\par Pro vytažení dat z YouTube jsem použil YouTube API v3, konkrétněji adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=můj\_klíč&part=část}, můj\_klíč je vygenerovaný API klíč a část je požadovaná návratová hodnota z YouTube API. Mezi tyto hodnoty patří:
-\begin{itemize} 
-\item{snippet}
-\item{contentDetails}
-\item{fileDetails}
-\item{player}
-\item{processingDetails}
-\item{recordingDetails}
-\item{statistics}
-\item{status}
-\item{suggestions}
-\item{topicDetails}
-\end{itemize}
-\par Použil jsem jen čtyři položky. Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a status zobrazí licenci a informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API.
 
-\par Po validaci url jsem musel vytvořit oddělenou metodu pro jméno videa, které je v json objektu reprezentuje title. Nejdřívě jsem zkoumal řešení pomocí již hotového json parseru, což by bylo možná jednodušší, ale poté vyhrála možnost zápisu na dva řádky.
+\par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Napčíklad url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
+\par Přesměrování vyžadovalo novou knihovnu net/http, ze které jsem použil její zabudované metody. Při vytváření jsem nastavil horní hranici přesměrování na 20, neboť drtivá většina proběhne do tří požadavků. Dále jsem potřeboval zajistit, abych se netočil dokola na několika málo url, což by bylo neefektivní a hloupé. Pro maximum dvaceti prvků mi bohatě postačuje pole s lineárním procházením, neboť hash mapa by byla zbytečný luxus. Takto se mohu podívat zda jsem již nenavštívil nějakou url dvakrát, což by znamenalo zacyklené přesměrování a v mém případě vyhození příslušné vyjímky.
+\par První úskalí knihovny net/http nastalo v okamžiku, kdy url neměla v názvu protokol. V tomto případě nebyla schopna rozpoznat server a celý proces zkolaboval. Řešením bylo přidat k url bez protokolu protokol http, který se v případě potřeby přesměruje na https. Kdybych přidal místo pouhého http rovnou https, mohlo by se stát, že některé stránky nebudou fungovat, neboť není zaručené zpětné přesměrování z šifrovaného protokolu na nešifrovaný.
+\par Poslední část přesměrování spočívala ve zjištění příslušného kódu, kterým mi stránka odpověděla na get pořadavek. Při kódu 2xx je vše v pořádku a url lze rovnou vrátit, neboť každý jistě ví, že 2xx kód je symbolem úspěchu. Číslovka začínající trojkou je ovšem zajímavějším protože se jedná o přesměrování. V tomto případě musí programátor zjistit, na kterou stránku se dostane a proces opakovat, než dostane kód 2xx, nebo než zjistí, že je v cyklu. Poslední skupina jsou kódy 4xx a 5xx značící chybu klienta a chybu serveru.
+
+\par Po zjištění, zda je požadovaná url adresa validní, bylo potřeba ještě provést inicializaci. Zde vytáhnu z YouTube API všechny potřebné informace o videu, které budu dále zpracovávat. Zde je velké množství parametrů, které YouTube API nabízí k výběru. Dále je potřeba vygenerovaný API klíč, pomocí něhož YouTube pozná, komu ubrat denní kvótu za požadavek. V následující tabulce je příklad parametrů pro API.
+\begin{table}[h!]
+\centering
+\caption[Parametry YouTube API a jejich význam]{Parametry YouTube API a jejich význam}\label{tab:apiparams}
+\begin{tabular}{| l | l |}
+\hline
+Parametr & Význam \\
+\hline
+snippet & Zobrazí hlavní informace o videu \\
+\hline
+contentDetails & Zobrazí detaily obsahu \\
+\hline
+fileDetails & Zobrazí detaily souboru \\
+\hline
+player & Zobrazí detaily přehrávače \\
+\hline
+processingDetails & Zobrazí podrobnosti zpracování \\
+\hline
+recordingDetails & Zobrazí podrobnosti nahrávání \\
+\hline
+statistics & Zobrazí statistiky videa \\
+\hline
+status & Zobrazí status \\
+\hline
+suggestions & Zobrazí návrhy \\
+\hline
+topicDetails & Zobrazí detaily o tématu videa \\
+\hline
+\end{tabular}
+\end{table}
+
+\par Konrétní požavavek byl na adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=klíč&part=část}, kde @videoid je inicializovaná hodnota pro identifikátor videa, klíč je unikátní API klíč programátora a část je jeden, nebo několik parametrů oddělených čárkou. Zde je nutné vzít v potaz, že za vytížení YouTube serveru se platí a v jistých případech nemalou částí denní přidělené kvóty jednotek. Detailní výpočet jsem popsal již v kapitole o YouTube API, zde se o tomto omezení zmiňuji podruhé, neboť jsem nepoužil všech deset parametrů, ale jen čtyři.
+\par Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a~status zobrazí licenci a~informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a~při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API a aplikace by pozbývala na efektivitě.
+
+\par Nyní již mám k dispozici json objekt a můžu se pustit do práce. První pokus o rozparsování proběhl ručně. Vždy jsem si pomocí methody split rozdělil objekt na pole o dvou částech a druhý index jsem rozdělil znovu podle čárky a odřádkování. Pro lepší představu o vizuální stránce kódu sem dám ukázku vytažení obsahu title.
 \begin{minted}{ruby}
 pom = @youtube_json_object_snippet.split('"title": "')[1]
 @name = pom.split("\",\n")[0]
 \end{minted}
-\par Metoda split vytvoří z objektu pole, kde je velmi jednoduché se pomocí příslušného indexu dostat k požadované hodnotě. Rozdělení pomocí \verb|\|",\verb|\|n" je naprosto v pořádku, neboť když někdo zkusí zadat například do popisku videa \verb|\|",\verb|\|n tento žetězec YouTube z něj udělá \verb|\|\verb|\|",\verb|\|\verb|\|n a proto nemůže dojít ke špatnému rozdělení v důsledku špatné sekvence znaků v popiscích. 
+\par Toto řešení bylo vcelku jednoduché, rozdělení podle ",\verb|\|n bylo v pořádku, neboť YouTube v popiscích provedlo escapacování těchto znaků a nemohlo dojít k nechtěnnému rozdělení ve špatném místě. Kód ovšem vypadal naprosto hrozně a proto jsem zvolil již hotovou variantu json parseru. Pro porovnání ukázka kódu s knihovnou json.
+\begin{minted}{ruby}
+my_hash = JSON.parse(@youtube)
+my_hash["items"][0]["snippet"]["title"]
+\end{minted}
+
+\par Toto řešení je mnohem přehlednější a další programátor má usnadněné pochopení vnitřní struktury json objektu. Po této odbočce se dostáváme zpátky k řešení, kde druhým zmiňovaným způsobem vracím název videa samostatně a ne v komplexní struktuře metadat. Tato alternativa byla zvolena záměrně díky ukládání videí v mateřském projektu. Dalším požadavkem mateřkého projektu bylo vrácení typu videa :video. Tím jsem měl za sebou základní část a mohl jsem pokračovat s metadaty.
+
+
+\subsection{Metadata}
+
+\par // todo
