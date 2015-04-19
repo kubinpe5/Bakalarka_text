@@ -5,8 +5,7 @@
 
 \section{Třída connector}
 \subsection{Založení aplikace}
-\par // github todo
-
+\par Před založením aplikace jsem několikrát navštívil R.U.R. v Praze, kde se projekt NARRA vyvýjí a po vymyšlení mé části aplikace jsem požádal vedoucího práce, aby mi daný projekt předpřipravil, neboť na fork projektu z NARRA jsem neměl dostatečná práva. Pro lehčí kontrolu mého postupu a možnost verzování jsem zvolil \url{www.github.com}. Po předpřipravení projektu podle mého návrhu jsem si na githubu vytvořil účet, vlastní SSH klíč a mohl jsem si celou aplikaci k sobě natáhnout a začít programovat.
 
 \subsection{Validace a inicializace}
 \par Vlastní implementace je napsaná v jazyce Ruby a~vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. Dále jsem potřeboval knihovny net/http a json pro snažší práci.
@@ -81,4 +80,67 @@ my_hash["items"][0]["snippet"]["title"]
 
 \subsection{Metadata}
 
-\par // todo
+\par Pro popis metadaty jsem vycházel ze struktury DublinCore, která ovšem ne úplně 100\% odpovídala mé představě a představě youtube vývojářů a proto jsem celou kostru musel upravit. 
+
+\begin{table}[h!]
+\centering
+\caption[Metadata předávaná do NARRA]{Metadata předávaná do NARRA}\label{tab:bson}
+\begin{tabular}{| l | l |}
+\hline
+	Název & Obsah \\
+\hline
+\hline
+	channelId & Jednoznačný identifikátor kanálu, pod kterým je video k dispozici. \\
+\hline
+	channelTitle & Název kanálu, pod kterým je video k dispozici. \\
+\hline
+	publishedAt & Přesný čas vydání a zvěřejnění videa. \\
+\hline
+	description & Popis k videu. \\
+\hline
+	categoryId & Číslo kategorie, do které patří dané video. \\
+\hline
+	liveBroadcastContent & Booleovská hodnota, zda je obsah ve videu vysílaný živě. \\
+\hline
+	viewCount & Počet shlédnutí videa. \\
+\hline
+	likeCount & Počet udělení líbí se. \\
+\hline
+	dislikeCount & Počet udělení nelíbí se. \\
+\hline
+	favouriteCount & Počet přidání do oblíbených. \\
+\hline
+	commentCount & Počet komentářů k videu. \\
+\hline
+	duration & Čas trvání. \\
+\hline
+	dimension & Zda je video 2d, nebo 3d. \\
+\hline
+	definition & Jaké je maximální možné rozlišení videa. \\
+\hline
+	caption & Booleovská hodnota, zda video obsahuje či neobsahuje titulky. \\
+\hline
+	uploadStatus & Zda je nahrané video již kompletní, či ještě ne. \\
+\hline
+	privacyStatus & Informace o soukromí videa. \\
+\hline
+	license & Kdo vlastní licenci k videu. \\
+\hline
+	embeddable & Zda je možné toto video použít k vložení. \\
+\hline
+	publicStatsViewable & Booleovská hodnota o zobrazitelnosti veřejných statistik. \\
+\hline
+	timestamp & Čas ve formátu utc, kdy byla metadata pořízena. \\
+\hline
+\end{tabular}
+\end{table}
+
+\par //todo popis metadat. Velmi podrobně.
+
+
+
+
+\subsection{Dokončení}
+\par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{https://www.youtube.com/v/}, za kterou stačí přiřadit identifikátor videa a požadovaný video stream je na světe. 
+\par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost.
+\par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód.
