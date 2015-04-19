@@ -25,12 +25,15 @@ module Narra
 ?\$/)
 \end{minted}
 
+\par // todo Popis RE
+
 \par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Napčíklad url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
 \par Přesměrování vyžadovalo novou knihovnu net/http, ze které jsem použil její zabudované metody. Při vytváření jsem nastavil horní hranici přesměrování na 20, neboť drtivá většina proběhne do tří požadavků. Dále jsem potřeboval zajistit, abych se netočil dokola na několika málo url, což by bylo neefektivní a hloupé. Pro maximum dvaceti prvků mi bohatě postačuje pole s lineárním procházením, neboť hash mapa by byla zbytečný luxus. Takto se mohu podívat zda jsem již nenavštívil nějakou url dvakrát, což by znamenalo zacyklené přesměrování a v mém případě vyhození příslušné vyjímky.
 \par První úskalí knihovny net/http nastalo v okamžiku, kdy url neměla v názvu protokol. V tomto případě nebyla schopna rozpoznat server a celý proces zkolaboval. Řešením bylo přidat k url bez protokolu protokol http, který se v případě potřeby přesměruje na https. Kdybych přidal místo pouhého http rovnou https, mohlo by se stát, že některé stránky nebudou fungovat, neboť není zaručené zpětné přesměrování z šifrovaného protokolu na nešifrovaný.
 \par Poslední část přesměrování spočívala ve zjištění příslušného kódu, kterým mi stránka odpověděla na get pořadavek. Při kódu 2xx je vše v pořádku a url lze rovnou vrátit, neboť každý jistě ví, že 2xx kód je symbolem úspěchu. Číslovka začínající trojkou je ovšem zajímavějším protože se jedná o přesměrování. V tomto případě musí programátor zjistit, na kterou stránku se dostane a proces opakovat, než dostane kód 2xx, nebo než zjistí, že je v cyklu. Poslední skupina jsou kódy 4xx a 5xx značící chybu klienta a chybu serveru.
 
 \par Po zjištění, zda je požadovaná url adresa validní, bylo potřeba ještě provést inicializaci. Zde vytáhnu z YouTube API všechny potřebné informace o videu, které budu dále zpracovávat. Zde je velké množství parametrů, které YouTube API nabízí k výběru. Dále je potřeba vygenerovaný API klíč, pomocí něhož YouTube pozná, komu ubrat denní kvótu za požadavek. V následující tabulce je příklad parametrů pro API.
+
 \begin{table}[h!]
 \centering
 \caption[Parametry YouTube API a jejich význam]{Parametry YouTube API a jejich význam}\label{tab:apiparams}
@@ -63,6 +66,8 @@ topicDetails & Zobrazí detaily o tématu videa \\
 
 \par Konrétní požavavek byl na adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=klíč&part=část}, kde @videoid je inicializovaná hodnota pro identifikátor videa, klíč je unikátní API klíč programátora a část je jeden, nebo několik parametrů oddělených čárkou. Zde je nutné vzít v potaz, že za vytížení YouTube serveru se platí a v jistých případech nemalou částí denní přidělené kvóty jednotek. Detailní výpočet jsem popsal již v kapitole o YouTube API, zde se o tomto omezení zmiňuji podruhé, neboť jsem nepoužil všech deset parametrů, ale jen čtyři.
 \par Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a~status zobrazí licenci a~informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a~při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API a aplikace by pozbývala na efektivitě.
+\par Při inicializaci je druhý parametr klíč, který slouží 
+
 
 \par Nyní již mám k dispozici json objekt a můžu se pustit do práce. První pokus o rozparsování proběhl ručně. Vždy jsem si pomocí methody split rozdělil objekt na pole o dvou částech a druhý index jsem rozdělil znovu podle čárky a odřádkování. Pro lepší představu o vizuální stránce kódu sem dám ukázku vytažení obsahu title.
 \begin{minted}{ruby}
@@ -82,13 +87,15 @@ my_hash["items"][0]["snippet"]["title"]
 
 \par Pro popis metadaty jsem vycházel ze struktury DublinCore, která ovšem ne úplně 100\% odpovídala mé představě a představě youtube vývojářů a proto jsem celou kostru musel upravit. 
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \caption[Metadata předávaná do NARRA]{Metadata předávaná do NARRA}\label{tab:bson}
-\begin{tabular}{| l | l |}
+\begin{tabular}{| p{.30\textwidth} | p{.70\textwidth} |}
 \hline
 	Název & Obsah \\
 \hline
+\hline
+	videoId & Jednoznačný identifikátor videa. \\
 \hline
 	channelId & Jednoznačný identifikátor kanálu, pod kterým je video k dispozici. \\
 \hline
@@ -120,6 +127,10 @@ my_hash["items"][0]["snippet"]["title"]
 \hline
 	caption & Booleovská hodnota, zda video obsahuje či neobsahuje titulky. \\
 \hline
+	licensedContent & Zda obsah videa podléhá licencování. \\
+\hline
+	regionRestriction & Zda je video zakázané v nějaká zemi. \\
+\hline
 	uploadStatus & Zda je nahrané video již kompletní, či ještě ne. \\
 \hline
 	privacyStatus & Informace o soukromí videa. \\
@@ -135,12 +146,12 @@ my_hash["items"][0]["snippet"]["title"]
 \end{tabular}
 \end{table}
 
-\par //todo popis metadat. Velmi podrobně.
-
-
-
+\par Jak jste si mohli povšimnout v této tabulce mi chybí titulek videa. Toto řešení je součástí návrhu, kde vracím název videa samostatně pro lepší následné ukládání v mateřském projektu. Dále mám staticky zadefinovaný typ videa, který se nemění. 
+\par Pro správné pochopení, jak extrhahovat metadata ze struktury JSON objektu je potřeba zjistit jak přesně vypadá. Celý objekt je jeden prvek obsahující pole items, ze kterého používám nultý prvek. V této úrovni rozhoduji, zda vyberu data z položky snippet, statistics, contentDetails nebo status. Po zvolení například snippet se dostanu o úroveň hlouběji a mohu vybrat konkrétní položku, například channelId. Stejným způsoben jsou dostupná všechna metadata z JSON objektu, pouze u restrikce zemí vzacím složitější strukturu než string.
+\par Poslední prvek metadat timestamp nenajdu v DublinCore ani v YouTube API, je ovšem důležité ho do dat zařadit, kvůli udržovatelnosti. V mateřské aplikaci bude nejspíš také časový otisk, který není v této chvíli ještě dodělán a proto jsem ho umístil do metadat. Je zde kvůli kontrole, jak staré jsou statistiky u videa a například pro automatizovanou kontrolu metadat starších než dva týdny se tento údaj hodí. Ještě jsem přemýšlel zda bude dobré řešení vložit časový otisk přímo do metadat, nebo raději mimo, ale řešení s otiskem v metadatech vyhrálo. Nejpádnější důvod byl, že při aktualizaci se zavolá pouze metoda metadata a nebude se muset volat žádná další, neboť znovu stahovat video nemá cenu, v případě přidání titulků se zavolá ještě download\_subtitles. Také jméno, identifikátor, url a typ videa se nebudou měnit.
+\par Celkem můj gem poskytuje k jednomu videu 24 metadat a odděleně také jméno videa, typ videa. V součtu se jedná o dvacet šest položek, které umožní rychlejší vyhledávání a relevantní obsah pro každého uživatele, který moje rozšíření využije.
 
 \subsection{Dokončení}
 \par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{https://www.youtube.com/v/}, za kterou stačí přiřadit identifikátor videa a požadovaný video stream je na světe. 
-\par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost.
-\par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód.
+\par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost, která zabezpečí, že po autentizaci pomocí OAuth začne mé stažení titulek fungovat.
+\par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód: "Login Required".
