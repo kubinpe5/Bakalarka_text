@@ -14,19 +14,18 @@
 RSpec.describe Order do
   it "sums the prices of its line items" do
     order = Order.new
-    order.add\_entry(LineItem.new(:item =\textgreater Item.new(
-      :price =\textgreater Money.new(1.11, :USD)
+    order.add_entry(LineItem.new(:item => Item.new(
+      :price => Money.new(1.11, :USD)
     )))
-    order.add\_entry(LineItem.new(:item =\textgreater Item.new(
-      :price =\textgreater Money.new(2.22, :USD),
-      :quantity =\textgreater 2
+    order.add_entry(LineItem.new(:item => Item.new(
+      :price => Money.new(2.22, :USD),
+      :quantity => 2
     )))
     expect(order.total).to eq(Money.new(5.55, :USD))
   end
 end
 \end{minted}
-%\end{displayquote}
-Dále můžeme deklarovat vnořené skupiny pomocí describe, nebo context metod.
+\par Dále můžeme deklarovat vnořené skupiny pomocí describe, nebo context metod.
 \begin{minted}{ruby}
 RSpec.describe Order do
   context "with no items" do
@@ -47,7 +46,7 @@ Další ukázky z rspec-core podrobněji rozeberu v části testování ke konci
 \subsection{RSpec expectations}
 \par Instalace balíčku expectations je naprosto stejná jako instalace rspec-core, ba i jednodušší. Stačí napsat pouze \textit{gem install rspec}, pro použití s~rspec core. V případě testování jinými nástroji, které podporují expectations, je příkaz lehce odlišný \textit{gem install rspec-expectations}. Pro použití ve vývojářském režimu master je potřeba doplnit na začátek souboru tento kus kódu:
 \begin{minted}{ruby}
-\%w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
+%w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
   gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
 end
 \end{minted}

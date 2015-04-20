@@ -22,12 +22,71 @@ module Narra
 \begin{minted}{ruby}
 !!(url =~ /^(?:http:\/\/|https:\/\/)?(www\.)?(youtu\.be\/|youtube
 \.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){6,11})(\S*)
-?\$/)
+?$/
 \end{minted}
 
-\par // todo Popis RE
+\par Regulární výraz je matematický formalismus pro popis slov/vět jazyků. Jedná se tedy o způsob jak formálně popsat určité slovo, případně větu pomocí formálního vyjádření speciálními symboly a skupinami znaků. V ruby je popis regulárním výrazem uvozen / na začátku a / na konci. Pomocí dvou lomítek řekneme překladači, že zápis uvnitř lomítek má považovat za regulární výraz.
+\par V předchozím regulárním výrazu jsem použil standartní konstrukce, až na jednu vyjímku, která není až tak obvyklá. Jedná se o ?:výraz, což znamená že bude splněno při žádném nebo jednom výskytu výrazu. Všechny ostatní konstrukce jsou popsány v následující tabulce. Ruby má také velmi dobrou webovou podporu pro testování regulárního výrazu na stránkách \url{http://rubular.com/}.
 
-\par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Napčíklad url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
+\begin{table}[h!]
+\centering
+\caption[Tabulka skupin symbolů pro regulární výraz]{Tabulka skupin symbolů pro regulární výraz}\label{tab:regexpr}
+\begin{tabular}{| p{.20\textwidth} | p{.80\textwidth} |}
+\hline
+\verb|[abc]| & Právě jeden znak z množiny: a, b, c. \\
+\hline
+\verb|[^abc]| & Právě jeden znak z doplňku množiny: a, b, c. \\
+\hline
+\verb|[a-z]| & Právě jeden znak z rozsahu a-z. \\
+\hline
+\verb|[a-zA-Z]| & Právě jeden znak z rozsahu a-z nebo A-Z. \\
+\hline
+\verb|^| & Znak pro začátek řádky. \\
+\hline
+\verb|$| & Znak pro konec řádky, např \verb|[a-z]+$| bude uspokojen všemi řetězci tvořenými znaky a-z, který se vyskytne alespoň jednou a bude před koncem řádky. \\
+\hline
+\verb|\A| & Začátek řetězce. \\
+\hline
+\verb|\z| & Konec řetězce. \\
+\hline
+\verb|.| & Jakýkoli znak. \\
+\hline
+\verb|\s| & Jakýkoli znak tvořený bílími znaky. \\
+\hline
+\verb|\S| & Jakýkoli znak netvořený bílími znaky. \\
+\hline
+\verb|\d| & Číslice. \\
+\hline
+\verb|\D| & Vše krom číslice. \\
+\hline
+\verb|\w| & Jakýkoli znak z množiny (písmeno, číslo, podtržítko). \\
+\hline
+\verb|\W| & Opak \verb|\w|. \\
+\hline
+\verb|\b| & Shoda musí nastat na hranici číselného a nečíselného znaku. \\
+\hline
+\verb|(...)| & Musí se shodovat přesně s výrazem v (), např (http)* značí nula až nekonečno opakování http. \\
+\hline
+\verb|(a|b)| & Znak a nebo b, a i b mohou být i skupina znaků. \\
+\hline
+\verb|a?| & Žádný, nebo právě jeden výskyt a. \\
+\hline
+\verb|a*| & Žádný, nebo více výskytů znaku a. \\
+\hline
+\verb|a+| & Jeden, nebo více výskytů znaku a. \\
+\hline
+\verb|a{3}| & Přesně tři výskyty znaku a. \\
+\hline
+\verb|a{6,}| & Šest a více výskytů znaku a. \\
+\hline
+\verb|a{3,6}| & Mezi třemi a šesti výskyty znaků a. \\
+\hline
+\end{tabular}
+\end{table}
+
+\par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Například url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
+
+\subsection{Přesměrování}
 \par Přesměrování vyžadovalo novou knihovnu net/http, ze které jsem použil její zabudované metody. Při vytváření jsem nastavil horní hranici přesměrování na 20, neboť drtivá většina proběhne do tří požadavků. Dále jsem potřeboval zajistit, abych se netočil dokola na několika málo url, což by bylo neefektivní a hloupé. Pro maximum dvaceti prvků mi bohatě postačuje pole s lineárním procházením, neboť hash mapa by byla zbytečný luxus. Takto se mohu podívat zda jsem již nenavštívil nějakou url dvakrát, což by znamenalo zacyklené přesměrování a v mém případě vyhození příslušné vyjímky.
 \par První úskalí knihovny net/http nastalo v okamžiku, kdy url neměla v názvu protokol. V tomto případě nebyla schopna rozpoznat server a celý proces zkolaboval. Řešením bylo přidat k url bez protokolu protokol http, který se v případě potřeby přesměruje na https. Kdybych přidal místo pouhého http rovnou https, mohlo by se stát, že některé stránky nebudou fungovat, neboť není zaručené zpětné přesměrování z šifrovaného protokolu na nešifrovaný.
 \par Poslední část přesměrování spočívala ve zjištění příslušného kódu, kterým mi stránka odpověděla na get pořadavek. Při kódu 2xx je vše v pořádku a url lze rovnou vrátit, neboť každý jistě ví, že 2xx kód je symbolem úspěchu. Číslovka začínající trojkou je ovšem zajímavějším protože se jedná o přesměrování. V tomto případě musí programátor zjistit, na kterou stránku se dostane a proces opakovat, než dostane kód 2xx, nebo než zjistí, že je v cyklu. Poslední skupina jsou kódy 4xx a 5xx značící chybu klienta a chybu serveru.
