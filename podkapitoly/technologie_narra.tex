@@ -11,11 +11,10 @@
 \caption{Doménový model celého projektu Narra}
 \end{figure}
 
-\par Z celého doménového modelu mě zajímají Meta, MetaItem, MarkMeta a~Item.
-// todo
+\par User reprezentuje přihlášeného uživatele, který chce používat aplikaci. Každý uživatel má vazbu na projekt a knihovnu. Entita Item je reprezentována jménem souboru, url videa a vlastními staženými soubory. Dále obsahuje vazby na knihovnu ve které jsou uložena videa. Další vazba je na entitu MetaItem, která reprezentuje generátor pro metadata. MetaItem je statická třída, která obsahuje vazbu na Meta. Meta už obsahuje příslušné jméno a položky platné pro popis metadaty.
 
 \begin{figure}[H]
 \includegraphics[width=1\textwidth]{./obrazova_priloha/domain_my.png}
 \caption{Doménový model mé části Narry}
 \end{figure}
-\par // toho popis
+\par Moje část aplikace je tvořena entitami Item, Meta a Library. Entita library reprezentuje celou knihovnu videí, se kterou se bude lokálně pracovat. Item je jeden konkrétní prvek u kterého je potřeba provést validaci a inicializaci pomocí url. Jméno pro konkrétní prvek je reprezentováno stringem a url je také string. Pro jednoduché volání budu mít vytvořenou třídu Connector, která bude provádět inicializace, validaci, popis metadaty a stažení videa a případných titulků.
