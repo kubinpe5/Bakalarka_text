@@ -1,5 +1,5 @@
 \section{YouTube API}
-\par YouTube Aplication Programming Interface je nástroj pro vývojáře, který umožňuje snadný přístup ke statistikám a~datům na konkrétním YouTube kanálu. API je rozdělené na tři hlavní části:
+\par YouTube Aplication Programming Interface\cite{apistart} je nástroj pro vývojáře, který umožňuje snadný přístup ke statistikám a~datům na konkrétním YouTube kanálu. API je rozdělené na tři hlavní části:
 \begin{itemize}
 	\item{Players and Player APIs, které umožňují uživatelům sledování videí ve vaší aplikaci a~zjištění zpětné vazby od uživatelů.}
 	\item{Data and Analytics APIs, zběžně popisuje rozhraní pro přístup k~funkcím a~datům na YouTube stránce.}
@@ -8,7 +8,7 @@
 
 \section{Data and Analytics API}
 \subsection{YouTube Data API (v3)}
-\par Pro mou práci potřebuji druhou část Data and Analytics APIs. Tato část rozhraní umožňuje začlenění funkcí YouTube do vlastní aplikace. Mám v plánu jí použít pro získání metadat, kde http/get požadavkem získám json objekt od YouTube API, s nímž budu nadále pracovat. Pro zahájení práce je potřeba si založit google účet a~svůj vlastní API klíč. Vytvoření projektu a~API klíče popíšu podrobněji v praktické části práce.
+\par Pro mou práci potřebuji druhou část Data and Analytics APIs\cite{apistart}\cite{apiv3}. Tato část rozhraní umožňuje začlenění funkcí YouTube do vlastní aplikace. Mám v plánu jí použít pro získání metadat, kde http/get požadavkem získám json objekt od YouTube API, s nímž budu nadále pracovat. Pro zahájení práce je potřeba si založit google účet a~svůj vlastní API klíč. Vytvoření projektu a~API klíče popíšu podrobněji v praktické části práce.
 \par Celý koncept API umožňuje a~vyžaduje získávání jen potřebných dílčích zdrojů, aby se zabránilo zbytečnému přenosu dat a~nebyla přetěžována síť ani procesor. Tento přístup zajišťuje efektivní práci a~využití prostředků, proto jsou pořadavky rozděleny na části. 
 \begin{itemize} 
 \item{snippet}
@@ -25,21 +25,14 @@
 \par Díky rozkouskování do částí je možné se dotázat na specifické objekty a~ušetřit si tak svou denní kvótu. V návaznosti dojde ke snížení latence a~aplikace bude rychlejší. 
 
 \subsection{Omezení}
-\par Každá aplikace má určitá omezení paměti, či časového kvanta, které uživateli přidělí. YouTube používá kvóty, ve kterých měří využití výpočetního výkonu pro jednotlivé uživatele. Podporovány jsou čtyři typy operací.
+\par Každá aplikace má určitá omezení paměti\cite{quota}\cite{googleconsole}, či časového kvanta, které uživateli přidělí. YouTube používá kvóty, ve kterých měří využití výpočetního výkonu pro jednotlivé uživatele. Podporovány jsou čtyři typy operací.
 \begin{itemize}
 \item {list}
 \item {insert}
 \item {update}
 \item {delete}
 \end{itemize}
-Operace list vrátí GET požadavek spolu žádným či více výsledky. Insert vytvoří pomocí pažadavku POST nový prostředek. Update změní již existující prostředek a~nahradí ho novým. Poslední delete vymaže existující prostředek, který jsme specifikovali. Operace insert, update a~delete vyžadují autorizaci uživatele, nejčastěji pomocí jeho vlastního API klíče. Operace list funguje i~v~případech bez autorizace, tak s autorizací.
+\par Operace list vrátí GET požadavek spolu žádným či více výsledky. Insert vytvoří pomocí pažadavku POST nový prostředek. Update změní již existující prostředek a~nahradí ho novým. Poslední delete vymaže existující prostředek, který jsme specifikovali. Operace insert, update a~delete vyžadují autorizaci uživatele, nejčastěji pomocí jeho vlastního API\cite{apistart} klíče. Operace list funguje i~v~případech bez autorizace, tak s autorizací.
 \par Další důvod pro používání kvót je zajištění jisté úrovně efektivity u vývojářů softwaru používajících Data API, a~ne vytvářet aplikace, které omezují ostatní a~snižují tak kvalitu poskytovaného softwaru. Ceny jednotlivých kvót se pro požadavky liší podle náročnosti operací, která se má provést. Jsou zde dva základní faktory, které ovlivňují z~většiny cenu požadavku. Při načtení ID z~videa zaplatíte 1 jednotku. Operace zápisu stojí přibližně 50 jednotek. Nejdražší je nahrání videa, které se pohybuje okolo 1~600 jednotek za jedno video. To se Vám může zdát jako velmi vysoká cena, ale není tomu tak. 
 \par Operace čtení a~zápisu nemají přesně stanovené množství kvót, neboť mohou číst a~zapisovat odlišné množství čístí videí. Pro tento účel YouTube API vytvořilo několik odlišných kategorií, aby umožnilo využít pouze nezbytně malou část kvóty pro požadavek. Po tomto krátkém úvodu se dostáváme k~přidělenému počtu jednotek pro jedno aplikaci. Každá aplikace dostane 50~000~000 jednotek na den, což odpovídá přibližně 1~000~000 operací čtení, kde má každý zdroj dvě části, nebo 50~000 operací zápisu a~450~000 dalších operací čtení, kde má každý zdroj znovu dvě části. Poslední příklad je přibližně 2~000 nahraných videí, 7~000 operací zápisu a~200~000 operací čtení, kde má každý zdroj tři části.
-\par Předchozí odstavec byl jen letmý příklad, kolik si YouTube API účtuje jednotek za své služby. Pro detailnější informace je potřeba nahlédnout do své google konzole na adrese \url{https://developers.google.com/youtube/v3/determine_quota_cost}. Zde jde velmi snadno zjistit konkrétní cenu požadavku aplikace pomocí připravené tabulky. Předběžně vypočítané cena u mé aplikace je 9 jednotek na jeden požadavek, což znamená více jak pět milionů zpracovaných videí za jeden den a~to je více než dostačující kapacita a~proto nemusím omezovat metadata, která v~mé aplikaci plánuji. 
-
-
-%resources
-%code.google.com/console
-%code.google.com/apis/console/
-%
-%https://console.developers.google.com/project/proud-safeguard-859/apiui/apiview/youtube/quotas
+\par Předchozí odstavec byl jen letmý příklad, kolik si YouTube API účtuje jednotek za své služby. Pro detailnější informace je potřeba nahlédnout do své google konzole na adrese \url{https://developers.google.com/youtube/v3/determine_quota_cost}\cite{quota}. Zde jde velmi snadno zjistit konkrétní cenu požadavku aplikace pomocí připravené tabulky. Předběžně vypočítané cena u mé aplikace je 9 jednotek na jeden požadavek, což znamená více jak pět milionů zpracovaných videí za jeden den a~to je více než dostačující kapacita a~proto nemusím omezovat metadata, která v~mé aplikaci plánuji. 

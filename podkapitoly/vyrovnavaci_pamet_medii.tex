@@ -1,1 +1,11 @@
 \section{Vyrovnávací paměť médií}
+\subsection{Obecný popis}
+\par 
+\subsection{Realizace v projektu NARRA}
+\par // todo
+
+
+1) Tvůj konektor poskytne informaci kde se nachází soubor s multimediálním obsahem.
+2) Pracovní server NARRA navštíví tuto adresu (kterou hostuji na tom download serveru), čímž dojde ke stažení videa, uložení na cestu dotupnou přes http a zaslání hlavičky 303 s lokací souboru.
+3) Pracovní server tedy náseduje přesměrování. (k timeoutu nedochází)
+4) Pracovní server přepočítá videosoubor do všech formátů potřebných v NARRA (WebM ve vysoké a nízké kvalitě; zvukový soubor ve formátu OGG Vorbis) odkazy na tyto soubory sám předá do databáze NARRA

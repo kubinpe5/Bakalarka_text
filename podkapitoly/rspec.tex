@@ -69,29 +69,29 @@ end
 \par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě false hlášky oznámí terminál co očekával a~na dalším řádku co dostal od programu. Velmi snadno se tedy pozná kde nastala chyba.
 
 \begin{center}
-\begin{longtable}{| p{.40\textwidth} | p{.60\textwidth} |} 
-%\caption[RSpec metody testování]{Různé způsoby testů pomocí RSpec}\label{tab:rspec}
+\begin{longtable}{| m{.38\textwidth} | m{.55\textwidth} |} 
+\caption[RSpec metody testování]{Různé způsoby testů pomocí RSpec}\label{tab:rspec}\\
 \hline
  \textbf{Zabudované komparátory} & \textbf{Význam} \\ 
- \hline\hline
+ \hline
  expect(actual).to eq(exp) & Rovná se ( == ) \\
  \hline
  expect(actual).to eql(exp) & Rovná se ( ? ) \\
- \hline\hline
- \multicolumn{2}{||c||}{Identita}\\
+ \hline
+ \multicolumn{2}{||c||}{\textbf{Identita}}\\
  \hline
  expect(actual).to be(exp) / to equal() & Zda je identické\\
- \hline\hline
- \multicolumn{2}{||c||}{Porovnání}\\
+ \hline
+ \multicolumn{2}{||c||}{\textbf{Porovnání}}\\
  \hline
  expect(actual).to be(exp) > / < / >= / <= expected & Operace porovnání \\
- \hline\hline
- \multicolumn{2}{||c||}{Regelární výrazy}\\
+ \hline
+ \multicolumn{2}{||c||}{\textbf{Regelární výrazy}}\\
  \hline
  expect(actual).to match(/exp/) & Zda výraz odpovídá exp \\
- \hline\hline
- \multicolumn{2}{||c||}{Třídy}\\
- \hline\hline
+ \hline
+ \multicolumn{2}{||c||}{\textbf{Třídy}}\\
+ \hline
  expect(actual).to be\_an\_instance\_of(exp) & Jestli se aktuální třída == exp \\
  \hline
  expect(actual).to be\_a(exp) & Alias k předchozímu \\
@@ -100,8 +100,8 @@ end
  \hline
  expect(actual).to be\_a\_kind\_of(exp) & Alias k předchozímu  \\
  \hline
- \multicolumn{2}{||c||}{Boolovské true / false}\\
- \hline\hline
+ \multicolumn{2}{||c||}{\textbf{Boolovské true / false}}\\
+ \hline
  expect(actual).to be\_truthy  & Projde když actual != nil OR false\\
  \hline
  expect(actual).to be true    & Projde když actual == true \\
@@ -114,8 +114,8 @@ end
  \hline
  expect(actual).to\_not be\_nil & Projde když actual != nil \\
  \hline
- \multicolumn{2}{||c||}{Očekávání errorů}\\
- \hline\hline
+ \multicolumn{2}{||c||}{\textbf{Očekávání errorů}}\\
+ \hline
  expect \{ ... \}.to raise\_error & Očekávání, že ... vyvolá error \\
  \hline
  expect \{ ... \}.to raise\_error(ErrorClass) & Očekávání, že ... vyvolá error z ErrorClass\\
@@ -124,16 +124,16 @@ end
  \hline
  expect \{ ... \}.to raise\_error(ErrorClass, "message")  & Kombinace druhé a~třetí varianty \\
  \hline
- \multicolumn{2}{||c||}{Vyhození chyby}\\
- \hline\hline
+ \multicolumn{2}{||c||}{\textbf{Vyhození chyby}}\\
+ \hline
  expect \{ ... \}.to throw\_symbol & Očekávání vyhození libovolného symbolu\\ 
  \hline
  expect \{ ... \}.to throw\_symbol(:symbol) & Očekávání vyhození symbolu :symbol\\ 
  \hline
  expect \{ ... \}.to throw\_symbol(:symbol, 'value') & Vyhození symbolu :symbol s~hodnotou 'value'\\ 
  \hline
- \multicolumn{2}{||c||}{Členství v kolekci}\\
- \hline\hline
+ \multicolumn{2}{||c||}{\textbf{Členství v kolekci}}\\
+ \hline
  expect(actual).to include(expected) & Splněno, když actual obsahuje expected \\
  \hline
  expect(actual).to start\_with(expected) & Actual začíná expected \\

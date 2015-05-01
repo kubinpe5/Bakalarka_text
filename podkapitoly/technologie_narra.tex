@@ -4,7 +4,7 @@
 \par V projekt Open Narrative se zapříčinil nejvíce umělec Eric Rosenzveig a~redaktor Tomáš Dobruška na FAMU v letech 2010 - 2015. Díky penězům z~grantu mohou pokračovat ve vývoji spolu s KSI FIT ČVUT.
 
 \section{Technologie v projektu Narra} 
-\par Narra je psaná v jazyce Ruby a~poskytuje REST-API pro komunikaci se světem. Další použité technologie jsou Sidekiq, OmniAuth, MongoDB a~Rails. Všechny tyto komponenty zajišťují stabilní jádro aplikace, na které je možné připisovat další balíčky (gem), jako v případě mé bakalářské práce. Pro začátek jsem se musel seznámit s doménovým modelem celé aplikace.
+\par Narra je psaná v jazyce Ruby a~poskytuje REST-API pro komunikaci se světem. Další použité technologie jsou Sidekiq, OmniAuth, MongoDB a~Rails. Všechny tyto komponenty zajišťují stabilní jádro aplikace, na které je možné navazovat dalšími balíčky (gem), jako v případě mé bakalářské práce. Pro začátek jsem se musel seznámit s doménovým modelem celé aplikace.
 
 \begin{figure}[H]
 \includegraphics[width=1\textwidth]{./obrazova_priloha/domain_full.pdf}
@@ -18,3 +18,32 @@
 \caption{Doménový model mé části Narry}
 \end{figure}
 \par Moje část aplikace je tvořena entitami Item, Meta a Library. Entita library reprezentuje celou knihovnu videí, se kterou se bude lokálně pracovat. Item je jeden konkrétní prvek u kterého je potřeba provést validaci a inicializaci pomocí url. Jméno pro konkrétní prvek je reprezentováno stringem a url je také string. Pro jednoduché volání budu mít vytvořenou třídu Connector, která bude provádět inicializace, validaci, popis metadaty a stažení videa a případných titulků.
+\par Zpracování videa probíhá vytvořením nového prvku(item) v knihovně. Pro zpracování se použije POST požadavek s parametry v1/items/new (author, admin). Po zpracování dostaneme strukturu nově vytvořeného prvku(item).
+\par Příklad POST pořadavku\cite{narra_en}:
+\begin{verbatim} 
+POST v1/items/new \\
+url: "http://example.org/00329O-051.mov"\required\\
+library: "552a328961633276b1000000" \required\\
+author: "Camera Guy"\\
+metadata: \{"description": "Some interesting description"\}
+\end{verbatim}
+\par Příklad odpovědi:
+\begin{verbatim}{\textwidth}
+{"status":"OK","item":{
+  "id":"552a338961633277b1000000",
+  "name":"00329O-051",
+  "url":"http://example.org/00329O-051.mov",
+  "type":"video",
+  "prepared":false,
+  "library":{"id":"552a...b1000000","name":"Example Library"},
+  "metadata":[
+   {"name":"type","value":"video","generator":"source"},
+   {"name":"name","value":"00329O-051","generator":"source"},
+   {"name":"url","value":"url","generator":"source"},
+   {"name":"library","value":"test","generator":"source"},
+   {"name":"author","value":"testovaci","generator":"source"},
+   {"name":"description","value":"test","generator":"bob"}
+  ]
+}}
+\end{verbatim}
+\par Dále je v kažné knihovně možné ověřit přispěvatele, kteří mohou používat software na více platformách. Ověření se provádí GET požadavkem s parametry v1/libraries (author, admin). 
