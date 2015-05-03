@@ -35,6 +35,7 @@
 
 \newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
 \newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
+\newcommand{\note}[1]{{\color{red}\textbf{Připomínka:} #1}}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % ODTUD DAL VSE ZMENTE
@@ -60,7 +61,12 @@
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-	%sem napište úvod Vaší práce
+\par YouTube je největší webová stránka pro sdílení videí se sídlem v San Bruno, Kalifornie. Byla založena v únoru 2005 a odkoupena společností google v listopadu následujícího roku. YouTube podporuje WebM a Adobe Flash Video technologii ve formátu H.264. Obsahem YouTube videí může být videoklip, televizní pořad, naučná videa a další. Většina obsahu je tvořena videi od jednotlivců, je zde také možné narazit na soubory od společností například Vevo, nebo BBC.
+\par NARRA, projekt centra audiovizuálních studií FAMU, je opensourcová webová služba umožňující společnou práci s audiovizuálním materiálem. Jádro projektu je tvořeno multimedíální databází obsahující metadata jednotlivých médií a informace popisující vazby mezi nimi. Mým cílem je rozšíření projektu NARRA o multimediální službu YouTube pro možnost zpracování médií, neboť YouTube obsahuje velmi mnoho materiálu pro umělce z FAMU, kteří budou software NARRA využívat.
+\par Hlavním úkolem je vytvořit konektor umožňující práci s YouTube videi a provázání těchto videí metadaty, které mi poskytne YouTube API. Takto zpracované video pro stažení projektem NARRA bude přístupné pro další střih či úpravy. To povede k usnadnění práce editorů, kteří neznají dodaná data úplně do detailu a potřebují najít ta nejlepší videa pro stih. 
+\par Na začátku práce se seznámíte s historií vzniku projektu NARRA, jeho hlavní myšlenkou a použitými technologiemi. V další kapitole zpracuji NoSQL databázi MongoDB, která je součástí projektu NARRA. Dále se teorie posune k YouTube API, jeho možnostem, omezením a technologiím, které mi umožní mou práci dokončit. Uvedu i několik příkladů použití YouTube API spolu s vysvětlením.
+\par V další kapitole se seznámíte s teorií testování a testovacím nástrojem RSpec, který je vhodný pro jazyk Ruby. Poté se teorie přesune k metadatům a DublinCore, kde vysvětlím historii a důležitost popisu elektronického materiálu pomocí metadat. Z teorie tak zbývají pouze dvě kapitoly o vyrovnávací paměti médií, která je potřeba pro uložení videa na server a kodek h.264, který používá YouTube.
+\par V praktické části se dozvíte více příkladů a krátký návod jak pracovat s YouTube API, validaci YouTube URL adresy pomocí regulárního výrazu, identifikaci a uskutečnění přesměrování v rámci HTTP. Dále se dočtete jak dostat z YouTube API informace o videu a jak je uložit ve formě metadat. Na konci práce jsem detailně rozebral teorii a praxi v testování softwaru, který bude součástí většího projektu.
 \end{introduction}
 
 \chapter{Cíl práce}
@@ -96,6 +102,7 @@
 	\item[MU] Masarykova univerzita
 	\item[API] Programovací rozhraní aplikace
 	\item[EOO] End of object(Konec objektu)
+	\item[DSL] Doménově specifický jazyk
 \end{description}
 
 

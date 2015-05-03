@@ -30,7 +30,6 @@ module Narra
 
 \begin{table}[h!]
 \centering
-\caption[Tabulka skupin symbolů pro regulární výraz]{Tabulka skupin symbolů pro regulární výraz}\label{tab:regexpr}
 \begin{tabular}{| p{.20\textwidth} | p{.73\textwidth} |}
 \hline
 \verb|[abc]| & Právě jeden znak z množiny: a, b, c. \\
@@ -82,6 +81,7 @@ module Narra
 \verb|a{3,6}| & Mezi třemi a šesti výskyty znaků a. \\
 \hline
 \end{tabular}
+\caption[Tabulka skupin symbolů pro regulární výraz]{Tabulka skupin symbolů pro regulární výraz}\label{tab:regexpr}
 \end{table}
 
 \par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Například url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
@@ -95,7 +95,6 @@ module Narra
 
 \begin{table}[h!]
 \centering
-\caption[Parametry YouTube API a jejich význam]{Parametry YouTube API a jejich význam}\label{tab:apiparams}
 \begin{tabular}{| l | l |}
 \hline
 Parametr & Význam \\
@@ -121,6 +120,7 @@ suggestions & Zobrazí návrhy \\
 topicDetails & Zobrazí detaily o tématu videa \\
 \hline
 \end{tabular}
+\caption[Parametry YouTube API a jejich význam]{Parametry YouTube API a jejich význam}\label{tab:apiparams}
 \end{table}
 
 \par Konrétní požavavek byl na adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=klíč&part=část}\cite{apiurl}, kde @videoid je inicializovaná hodnota pro identifikátor videa, klíč je unikátní API klíč programátora a část je jeden, nebo několik parametrů oddělených čárkou. Zde je nutné vzít v potaz, že za vytížení YouTube serveru se platí a v jistých případech nemalou částí denní přidělené kvóty\cite{googleconsole1} jednotek. Detailní výpočet jsem popsal již v kapitole o YouTube API, zde se o tomto omezení zmiňuji podruhé, neboť jsem nepoužil všech deset parametrů, ale jen čtyři.
@@ -147,7 +147,6 @@ my_hash["items"][0]["snippet"]["title"]
 
 \begin{table}[!ht]
 \centering
-\caption[Metadata předávaná do NARRA]{Metadata předávaná do NARRA}\label{tab:bson}
 \begin{tabular}{| p{.28\textwidth} | p{.65\textwidth} |}
 \hline
 	Název & Obsah \\
@@ -202,6 +201,7 @@ my_hash["items"][0]["snippet"]["title"]
 	timestamp & Čas ve formátu utc, kdy byla metadata pořízena. \\
 \hline
 \end{tabular}
+\caption[Metadata předávaná do NARRA]{Metadata předávaná do NARRA}\label{tab:bson}
 \end{table}
 
 \par Jak jste si mohli povšimnout v této tabulce mi chybí titulek videa. Toto řešení je součástí návrhu, kde vracím název videa samostatně pro lepší následné ukládání v mateřském projektu. Dále mám staticky zadefinovaný typ videa, který se nemění. 
@@ -210,6 +210,6 @@ my_hash["items"][0]["snippet"]["title"]
 \par Celkem můj gem poskytuje k jednomu videu 24 metadat a odděleně také jméno videa, typ videa. V součtu se jedná o dvacet šest položek, které umožní rychlejší vyhledávání a relevantní obsah pro každého uživatele, který moje rozšíření využije.
 
 \subsection{Dokončení}
-\par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{#{env}/youtube_dl?id=#{@videoid}}. Proměnná env zde zastupuje proměnnou prostředí, která je platná pro NARRA_YOUTUBE_SERVER a videoid je již dobře známý identifikátor videa.
+\par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{#{env}/youtube_dl?id=#{@videoid}}. Proměnná env zde zastupuje proměnnou prostředí, která je platná pro NARRA\_YOUTUBE\_SERVER a videoid je již dobře známý identifikátor videa.
 \par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost, která zabezpečí, že po autentizaci pomocí OAuth začne mé stažení titulek fungovat.
-\par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód: "Login Required".
+\par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód: \uv{Login Required}.

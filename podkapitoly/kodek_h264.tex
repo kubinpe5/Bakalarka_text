@@ -1,1 +1,10 @@
-\section {Kodek H.264}
+\section {Kodek VP8}
+\note{Lepší bude popsat VP8, do kterého se počítají náhledy. Základní info asi zde \url{http://www.webmproject.org/about/faq/}
+
+Podle současného nastavení se videa počítají do WebM (video v kodeku VP8, audio ve Vorbis) ve dvou kvalitách: 720p s bitrate 1Mbps a 180p s bitrate 300kbps.
+
+Navíc je počítán čistě zvukový náhled ve Vorbis (kontejner OGG) a pět náhledů v rozlišení 350x250 ve formátu PNG. To se ale asi úplně nehodí sem. To bych možná zmínil už dřív.
+
+K tomu H.264 - to je nejpoužívanější kodek, který kontejner WebM taky podporuje, ale v NARRA se nepoužívá.
+
+Na vysvětlení: Kontejner (WebM, MP4, AVI, MOV, ...) jsou formáty, které definují jak se uvnitř ukládají jednotlivé proudy dat a jak se uspořádávají do výsledného souboru. No a jednotlivé proudy dat sice teoreticky mohou být jen kódované (ve zvuku třeba formát PCM - pulzně kódová modulace) ale typicky jsou komprimované (MPEG2, VP8, H.264, ...). No a ke slovu kodek: protože kodér potřebuje i dekodér, tak to zkrátili na jedno slovo: kodek.}

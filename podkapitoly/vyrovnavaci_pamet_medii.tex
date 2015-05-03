@@ -1,11 +1,44 @@
 \section{Vyrovnávací paměť médií}
 \subsection{Obecný popis}
-\par 
+\par \note{Doporučuji popsat jak obecně funguj vyrovnávací paměti: tedy že jednak kvůli zátěži původního serveru se zdroji, datových linek i jiných prvků je vhodné vytvořit jednorázově médium v náhledové kvalitě. To je pak vhodné mít uložené na vlastní infrastruktuře z několika důvodů: jednak je náhled potřebný pro práci v aplikaci neustále dostupný a nespoléhá se na třetí strany, za druhé je možné uživateli aplikace poskytnout takové zdroje ke kterým nemá přímo přístup a pak se také částečně zahrání úplné ztrátě materiálu v případě, že původní poskytovatel multimédium znepřístupní. Zrovna tohle je u YouTube dost podstatné, protože multimédium není dostupné jako soubor a tak by bylo třeba ho při každém požadavku znova stahovat a zpracovávat.}
 \subsection{Realizace v projektu NARRA}
 \par // todo
-
 
 1) Tvůj konektor poskytne informaci kde se nachází soubor s multimediálním obsahem.
 2) Pracovní server NARRA navštíví tuto adresu (kterou hostuji na tom download serveru), čímž dojde ke stažení videa, uložení na cestu dotupnou přes http a zaslání hlavičky 303 s lokací souboru.
 3) Pracovní server tedy náseduje přesměrování. (k timeoutu nedochází)
 4) Pracovní server přepočítá videosoubor do všech formátů potřebných v NARRA (WebM ve vysoké a nízké kvalitě; zvukový soubor ve formátu OGG Vorbis) odkazy na tyto soubory sám předá do databáze NARRA
+
+\note{V NARRA je to tak, že při vytváření entity Item se z konektoru který umí danou URL obsloužit (existují uvnitř zabudované konektory pro multimediální soubory dostupné přímo přes HTTP) vytáhnou všechny potřebné informace včetně adresy pro stažení fyzického souboru s multimédiem. Jako poslední krok po uložení Item se spustí processing (narra-core/lib/narra/core/items.rb:88), což v podstatě znamená, že se do fronty úkolů v systému SideKick zařadí úloha překódování videa do požadovaných formátů (definováno v nastavení instance, viz dotaz na API v1/settings, 1.5.2 v dokumentaci API).
+
+Dobré je pak říct, že pro tvoje účely jsi musel vytvořit i způsob jak video z YouTube stáhnout a poskytnout dočasně jako soubor. Vše je to postavené na serveru nginx, skript pro stažení a poskytnutí vypadá takto (nicméně pozor: tohle předpokládá, že ID je v pořádku (což by mělo) ale ošetřené by to být mělo skript asi během zítřka ještě upravím):}
+
+\begin{minted}{python}
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import web, subprocess, os
+
+urls = ("/.*", "youtube")
+app = web.application(urls, globals())
+
+class youtube:
+    def GET(self):
+        data = web.input(id="0")
+        video = data.id
+        if video == "0":
+            raise web.notfound()
+      
+        filename = subprocess.check_output(['youtube-dl',
+            '--get-filename','-o','"%(id)s.%(ext)s"',video])
+        filename = filename.strip('"\n')
+        
+        os.system("youtube-dl -o /data/%s %s >/dev/null" % (filename, video))
+
+        raise web.seeother('/'+filename)
+
+if __name__ == "__main__":
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    app.run()
+
+\end{minted}

@@ -1,20 +1,19 @@
 \section{DublinCore}
-\par DublinCore\cite{dublincoredocementation} je soubor metadatových prvků, jehož cílem je umožnit rychlé a snadné vyhledávání v elektronických zdrojích. Původně byl vytvořen jako popis metadat v webových stránek, postupně zaujal vyšší instituce a experty z různých odvětví, například muzeí, kni\~ho\~ven a dalších komerčních ogranizací. Vedení sídlí ve státě Ohio v Severní Americe.
+\par DublinCore\cite{dublincoredocementation} je doporučení pro označení metadat, jehož cílem je umožnit rychlé a snadné vyhledávání v elektronických zdrojích. Původně byl vytvořen jako popis metadat v webových stránek, postupně zaujal vyšší instituce a experty z různých odvětví, například muzeí, kni\~ho\~ven a dalších komerčních ogranizací. Vedení sídlí ve státě Ohio v Severní Americe.
 
 \subsection{Historie DublinCore}
 \par První setkání tvůrců DublinCore\cite{dublincoredocementation} bylo v březnu 1995. Jejich cílem bylo popsat elektronická data, na základě sémantických pravidel a byla zde uvedena problematika vyhledávání v elektronických dokumentech.
 
-\par Druhý seminář se konal o rok později v dubnu 1996. Tvůrce tentokrát hostilo město Warwick ve Velké Británii. Po přiblížení problematiky mezinárodní komunitě se zaměřili na problém syntaxe a sémantiky, kterou by byly schopné efektivně zpracovat Webové aplikace. Rychlé zavedení technologie DublinCore do Webových aplikací vedlo k rychlému rozšíření této metody do světa. Na tomto setkání byl vytvořen základ architektury metadat, Warwick Framework.
+\par Druhý seminář se konal o rok později v dubnu 1996. Tvůrce tentokrát hostilo město Warwick ve Velké Británii. Po přiblížení problematiky mezinárodní komunitě se zaměřili na problém syntaxe a sémantiky, kterou by byly schopné efektivně zpracovat webové aplikace. Rychlé zavedení technologie DublinCore do webových aplikací vedlo k rychlému rozšíření této metodiky do světa. Na tomto setkání byl vytvořen základ architektury metadat: Warwick Framework.
 
 \par V září 1996 byl další seminář přesunut do Spojených států amerických do města Dublin. Hostil převážně experty na grafiku, kteří spolu s tvůrci DublinCore diskutovali o spojení mezi vizuální a textovou částí metadat. Měli za cíl spojit požadavky DublinCore a Warwick Frameworku.
 
 \par Další krok ve vývoji se odehrál v roce 1997 ve městě Canbery v Austrálii. Hlavní myšlenou bylo učinit popis více minimalistický a lépe ho strukturovat. Šlo o zjednodušení a upravení popisu pro následná další rozšíření, neboť každý jistě ví, že na hliněných nohách se kvalitní barák postavit nedá. Proto celé specifikaci dali stejnou strukturu a učinili jí minimalistickou.
 
-\par Další semináře se konali v říjnu 1997 v Helsinkách, kde byl kladen důraz na datum, pusobnost a vztah. Ve Washingtonu v roce 1998 bylo svolané setkání, pro sjednocení různých implementací DublinCore. Další seminář byl rekordní v počtu odborníků. Sešlo se jich 120 z 27 zemí. Další semináře už nastíním pouze pomocí tabulky.
+\par Další semináře se konaly v říjnu 1997 v Helsinkách, kde byl kladen důraz na datum, působnost a vztah. Ve Washingtonu v roce 1998 bylo svolané setkání, pro sjednocení různých implementací DublinCore. Další seminář byl rekordní v počtu odborníků. Sešlo se jich 120 z 27 zemí. Další semináře už nastíním pouze pomocí tabulky.
 
 \begin{table}[h!]
 \centering
-\caption[DublinCore historie]{Schůzky DublinCore mezi lety 2000 - 2014}\label{tab:dublincore}
 \begin{tabular}{| l | l | l |}
 \hline
 Rok & Město & Země\\
@@ -50,23 +49,23 @@ Rok & Město & Země\\
 2014 & Austin & Texas, USA\\
 \hline
 \end{tabular}
+\caption[DublinCore historie]{Schůzky DublinCore mezi lety 2000 - 2014}\label{tab:dublincore}
 \end{table}
 
 \subsection{Struktura DublinCore}
-\par Pro mou bakalářskou práci jsem zvolil popis sekci 3 z \url{http://dublincore.org/documents/dcmi-terms/}, kterou jsem ještě upravil, abych využil všechna metadata co mi youtube nabízí a zároveň se zbavil duplicit, které se v této sekci nacházejí. Veškeré popisy jsou dostupné na \url{http://dublincore.org/documents/dcmi-terms/}.
-\par Struktura objektu s daty o youtube videu se lehce lišila od stanovené struktury z DublinCore\cite{dublincoredocementation}. V následující tabulce je náhled na originální změní pořadavků, které jsem musel upravit. Více o této úpravě je napsáno v části Realizace, kapitola Popis metadaty.
-\hfill\vfill
+\par Pro mou bakalářskou práci jsem zvolil popis sekce 3 z \url{http://dublincore.org/documents/dcmi-terms/}, kterou jsem ještě upravil, abych využil všechna metadata co mi YouTube nabízí a zároveň se zbavil duplicit, které se v této sekci nacházejí. Veškeré popisy jsou dostupné na \url{http://dublincore.org/documents/dcmi-terms/}.
+\par Struktura objektu s daty o YouTube videu se lehce lišila od stanovené struktury z DublinCore\cite{dublincoredocementation}. V následující tabulce je náhled na originální změní požadavků, které jsem musel upravit. Více o této úpravě je napsáno v části Realizace, kapitola Popis metadaty.
+\hfill
 \begin{table}[h!]
-\caption[DublinCore metadata]{Ujednocená struktura metadat}\label{tab:dublincore1}
 \begin{tabular}{|p{.20\textwidth} | p{.40\textwidth} | p{.40\textwidth}|}
 \hline
 Popisek & Definice & Komentář\\
 \hline
 Přispěvatel (contributor) & Subjekt zodpovědný za zdroj příspěvku. & Například jméno osoby, organizace, nebo služby.\\
 \hline
-Krytí (coverage) & Prostorová a časová použitelnost zdroje. & Například označení místa geografickými souřadnice mi, nebo lhůta či časové období.\\
+Krytí (coverage) & Prostorová a časová použitelnost zdroje. & Například označení místa geografickými souřadnicemi, nebo lhůta či časové období.\\
 \hline
-Tvůrce (creator) & Subjekt zodpovědný za zpřístupnění zdroje. & Napříkald jméno osoby, organizace, nebo služby.\\
+Tvůrce (creator) & Subjekt zodpovědný za zpřístupnění zdroje. & Například jméno osoby, organizace, nebo služby.\\
 \hline
 Datum (date) & Doba spojená s událostí v životním cyklu zdroje. & Vyjádření časové informace. \\
 \hline
@@ -74,24 +73,25 @@ Popis (describtion) & Popis dané entity. & Popis může být textový nebo graf
 \hline
 Formát (format) & Formát souboru, fyzický nosič, nebo rozměry zdroje. & Například délka trvání videa. \\
 \hline
-Identifikátor (identifier) & Primářní klíč zdroje. & Řetězec maximálně dvanácti znaků mezi ?v= a \&, nebo koncem URL.\\
+Identifikátor (identifier) & Primářní klíč zdroje. & Parametr \texttt{v} HTTP GET požadavku na stránku s videem.\\
 \hline
-Jazyk & Jazyk zdroje. & YouTube API neposkytuje přímý přístup k jazyku, proto ho nebudu do mých metadat používat.\\
+Jazyk, řeč & Jazyk zdroje. & YouTube API neposkytuje přímý přístup k jazyku, proto ho nebudu do mých metadat používat.\\
 \hline
-Vydavatel & To samé co Tvůrce. & Zde mají v metadatech duplicitu. \\
+Vydavatel & Osoba která vydala dílo. & Zde by mohl být vydavatel YouTube, který se dle mého názoru spíše platforma či služba, proto v mých metadatech autor nebude.\\
 \hline
-Vztah (relation) & Související zdroje. & V mám případě se jedná o categoryId. \\
+Vztah (relation) & Související zdroje. & Tuto informaci YouTube API neposkytuje.\\
 \hline
 Práva (rights) & Informace o právech obsahu. & Tento atribut je v YouTubeAPI popsán dvěmi entitami. LicensedContent a License.\\
 \hline
-Zdroj (source) & Přibuzný zdroj od kterého je odvozen popsaný zdroj. & Tento atribut v mých metadatech mít nebudu.\\
+Zdroj (source) & Přibuzný zdroj od kterého je odvozen popsaný zdroj. & Tento atribut YouTube API neposkytuje.\\
 \hline
 Předmět (subject) & Téma zdroje. & Toto je znovu entita, kterou YouTubeAPI neobsahuje.\\
 \hline
-Název (title) & Jméno dané zdroji. & Atribut title, který vracím samostatně pro lěpší práci s následným obsahem.\\
+Název (title) & Jméno dané zdroji. & Atribut title, který vracím samostatně kvůli požadavkům na rozraní konektoru.\\
 \hline
 Typ (type) & Povaha nebo žánr zdroje & Toto je vždy video.\\
 \hline
 \end{tabular}
+\caption[DublinCore metadata]{Ujednocená struktura metadat}\label{tab:dublincore1}
 \end{table}
-\vfill
+\hfill
