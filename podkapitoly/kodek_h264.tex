@@ -1,10 +1,8 @@
-\section {Kodek VP8}
-\note{Lepší bude popsat VP8, do kterého se počítají náhledy. Základní info asi zde \url{http://www.webmproject.org/about/faq/}
+\section {Kodek VP8 a ukládání videí v NARRA}
+\par Pro správné pochipení významu kodeku VP8 je potřeba trocha teorie k WebM. WebM je otevřený formát multimediálních souborů používaný na webu. WebM soubory se skládají z obrazových toků komprimovaných právě kodekem VP8, nebo VP9. V projektu NARRA je použita komprimace pomocí VP8. V aktuálním nastavení se videa počítají do formátu WebM (video v kodeku VP8, audio ve Vorbis) ve dvou kvalitách: 720p s bitrate 1Mbps a 180p s bitrate 300kbps. Navíc je počítán čistě zvukový náhled ve Vorbis (kontejner OGG) a pět náhledů v rozlišení 350x250 ve formátu PNG. 
+\par Pro uložení videa se používá přesný formát například (WebM, MP4, AVI, MOV, ...), tyto formáty definují vnitřní strukturu a složení jednotlivých datových proudů do výsledného souboru. Tento datový proud je potřeba zkomprimovat. K účelu komprimace slouží právě kodek (MPEG, VP8, H.264, ...). Komprimace slouží pro zmenšení datového toku pro záznam videa.
+\subsection{VP8}
+\par Jak již bylo zmíněno VP8 je formát pro kompresi dat vlastněný společností Google. Je založen na knihovně \texttt{libvpx}, která jediná umí zakódovat VP8 video stream. Rozkódování probíhá také pomocí google knihovny \texttt{libvpx}.
 
-Podle současného nastavení se videa počítají do WebM (video v kodeku VP8, audio ve Vorbis) ve dvou kvalitách: 720p s bitrate 1Mbps a 180p s bitrate 300kbps.
 
-Navíc je počítán čistě zvukový náhled ve Vorbis (kontejner OGG) a pět náhledů v rozlišení 350x250 ve formátu PNG. To se ale asi úplně nehodí sem. To bych možná zmínil už dřív.
-
-K tomu H.264 - to je nejpoužívanější kodek, který kontejner WebM taky podporuje, ale v NARRA se nepoužívá.
-
-Na vysvětlení: Kontejner (WebM, MP4, AVI, MOV, ...) jsou formáty, které definují jak se uvnitř ukládají jednotlivé proudy dat a jak se uspořádávají do výsledného souboru. No a jednotlivé proudy dat sice teoreticky mohou být jen kódované (ve zvuku třeba formát PCM - pulzně kódová modulace) ale typicky jsou komprimované (MPEG2, VP8, H.264, ...). No a ke slovu kodek: protože kodér potřebuje i dekodér, tak to zkrátili na jedno slovo: kodek.}
+%Na vysvětlení: Kontejner (WebM, MP4, AVI, MOV, ...) jsou formáty, které definují jak se uvnitř ukládají jednotlivé proudy dat a jak se uspořádávají do výsledného souboru. No a jednotlivé proudy dat sice teoreticky mohou být jen kódované (ve zvuku třeba formát PCM - pulzně kódová modulace) ale typicky jsou komprimované (MPEG2, VP8, H.264, ...). No a ke slovu kodek: protože kodér potřebuje i dekodér, tak to zkrátili na jedno slovo: kodek.}
