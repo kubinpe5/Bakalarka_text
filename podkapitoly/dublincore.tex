@@ -1,5 +1,5 @@
 \section{DublinCore}
-\par DublinCore\cite{dublincoredocementation} je doporučení pro označení metadat, jehož cílem je umožnit rychlé a snadné vyhledávání v elektronických zdrojích. Původně byl vytvořen jako popis metadat v webových stránek, postupně zaujal vyšší instituce a experty z různých odvětví, například muzeí, kni\~ho\~ven a dalších komerčních ogranizací. Vedení sídlí ve státě Ohio v Severní Americe.
+\par DublinCore\cite{dublincoredocementation} je doporučení pro označení metadat, jehož cílem je umožnit rychlé a snadné vyhledávání v elektronických zdrojích. Původně byl vytvořen jako popis metadat webových stránek, postupně zaujal vyšší instituce a~experty z různých odvětví, například muzeí, knihoven a dalších komerčních ogranizací. Vedení sídlí ve státě Ohio v Severní Americe.
 
 \subsection{Historie DublinCore}
 \par První setkání tvůrců DublinCore\cite{dublincoredocementation} bylo v březnu 1995. Jejich cílem bylo popsat elektronická data, na základě sémantických pravidel a byla zde uvedena problematika vyhledávání v elektronických dokumentech.
@@ -51,11 +51,11 @@ Rok & Město & Země\\
 \end{tabular}
 \caption[DublinCore historie]{Schůzky DublinCore mezi lety 2000 - 2014}\label{tab:dublincore}
 \end{table}
-
+\vfill
 \subsection{Struktura DublinCore}
-\par Pro mou bakalářskou práci jsem zvolil popis sekce 3 z \url{http://dublincore.org/documents/dcmi-terms/}, kterou jsem ještě upravil, abych využil všechna metadata co mi YouTube nabízí a zároveň se zbavil duplicit, které se v této sekci nacházejí. Veškeré popisy jsou dostupné na \url{http://dublincore.org/documents/dcmi-terms/}.
+\par Pro mou bakalářskou práci jsem zvolil popis sekce 3 z \url{http://dublincore.}\\\url{org/documents/dcmi-terms/}, kterou jsem ještě upravil, abych využil všechna metadata co mi YouTube nabízí a zároveň se zbavil duplicit, které se v této sekci nacházejí. Veškeré popisy jsou dostupné na \url{http://dublincore.org/documents/dcmi-terms/}.
 \par Struktura objektu s daty o YouTube videu se lehce lišila od stanovené struktury z DublinCore\cite{dublincoredocementation}. V následující tabulce je náhled na originální změní požadavků, které jsem musel upravit. Více o této úpravě je napsáno v části Realizace, kapitola Popis metadaty.
-\hfill
+\vfill
 \begin{table}[h!]
 \begin{tabular}{|p{.20\textwidth} | p{.40\textwidth} | p{.40\textwidth}|}
 \hline
@@ -85,7 +85,7 @@ Práva (rights) & Informace o právech obsahu. & Tento atribut je v YouTubeAPI p
 \hline
 Zdroj (source) & Přibuzný zdroj od kterého je odvozen popsaný zdroj. & Tento atribut YouTube API neposkytuje.\\
 \hline
-Předmět (subject) & Téma zdroje. & Toto je znovu entita, kterou YouTubeAPI neobsahuje.\\
+Předmět (subject) & Téma zdroje. & Toto je u videa reprezentováno číslem kategorie.\\
 \hline
 Název (title) & Jméno dané zdroji. & Atribut title, který vracím samostatně kvůli požadavkům na rozraní konektoru.\\
 \hline

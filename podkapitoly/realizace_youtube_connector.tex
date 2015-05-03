@@ -1,14 +1,14 @@
 \section{Řešení spolupráce s~YouTube API}
 \subsection{YouTube Data API (v3)}
-\par API v3\cite{apiv3} umožňuje začlenění funkcí YouTube do vlastní aplikace. Proto jí používám pro získání metadat. Nejprve jsem si musel vytvořit google účet a~zaregistrovat aplikaci. Pro vytvoření google účtu a~zaregistrování slouží \url{https://console.developers.google.com/project}\cite{googleconsole}. Každý takto vytvořený projekt má u sebe statistiky s~počtem dotazů, počtem chyb, identifikačním řetězcem a~názvem. 
+\par API v3\cite{apiv3} umožňuje začlenění funkcí YouTube do vlastní aplikace. Proto ho používám pro získání metadat. Nejprve jsem si musel vytvořit google účet a~zaregistrovat aplikaci. Pro vytvoření google účtu a~zaregistrování slouží \url{https://console.developers.google.com/project}\cite{googleconsole}. Každý takto vytvořený projekt má u sebe statistiky s~počtem dotazů, počtem chyb, identifikačním řetězcem a~názvem. 
 \par Po kliknutí na název mého projektu je možné se dozvědět podrobnější informace a~změnit konfiguraci projektu. Základní náhled mi poskytuje graf s~počtem požadavků, kde vidím jak moc vytěžuji YouTube API\cite{apiv3}. Dále je zde potřeba nechat si vygenerovat unikátní API klíč, pomocí kterého získávám metadata.
 
 \section{Třída connector}
 \subsection{Založení aplikace}
-\par Před založením aplikace jsem několikrát navštívil R.U.R. v Praze, kde se projekt NARRA vyvýjí a po vymyšlení mé části aplikace jsem požádal vedoucího práce, aby mi daný projekt předpřipravil, neboť na fork projektu z NARRA jsem neměl dostatečná práva. Pro lehčí kontrolu mého postupu a možnost verzování jsem zvolil \url{www.github.com}\cite{git}. Po předpřipravení projektu podle mého návrhu jsem si na githubu vytvořil účet, vlastní SSH klíč a mohl jsem si celou aplikaci k sobě natáhnout a začít programovat.
+\par Před založením aplikace jsem několikrát navštívil R.U.R. v Praze, kde se projekt NARRA vyvýjí a~po vymyšlení mé části aplikace jsem požádal vedoucího práce, aby mi daný projekt předpřipravil, neboť na \texttt{fork} projektu z NARRA jsem neměl dostatečná práva. Pro lehčí kontrolu mého postupu a~možnost verzování jsem zvolil \url{www.github.com}\cite{git}. Po předpřipravení projektu podle mého návrhu jsem si na githubu vytvořil účet, vlastní SSH klíč a~mohl jsem si celou aplikaci k sobě natáhnout a~začít programovat.
 
-\subsection{Validace a inicializace}
-\par Vlastní implementace je napsaná v jazyce Ruby a~vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. Dále jsem potřeboval knihovny net/http a json pro snažší práci.
+\subsection{Validace a~inicializace}
+\par Vlastní implementace je napsaná v jazyce Ruby a~vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. Dále jsem potřeboval knihovny Net/HTTP a~JSON pro snažší práci.
 \begin{minted}{ruby}
 require 'narra/core'
 require 'net/http'
@@ -18,14 +18,14 @@ module Narra
   module Youtube
     class Connector < Narra::SPI::Connector
 \end{minted}
-\par Tímto kusem kódu jsem vytvořil nový modul, který je potomkem Narra::\-SPI::Connector. Další věc jsem musel řešit validaci url. V případě nevalidní url mi stačilo vrátit false, při úspěchu jsem vracel true. Nejdřívě jsem zkoušel do projektu zakomponovat metodu match. Ta ovšem vracela string místo booleovké hodnoty a~proto jsem ji musel nahradit =\~. Takto zkonstruovaný výraz by ovšem nefungoval úplně dokonale, neboť při funkční url by vrátil 0. Stačilo výraz lehce poupravit do tvaru !!(url =\~ RegExp ) a~vše fungovalo jak má.
+\par Tímto kusem kódu jsem vytvořil nový modul, který je potomkem Narra::\\SPI::Connector. Další věc jsem musel řešit validaci url. V případě nevalidní url mi stačilo vrátit false, při úspěchu jsem vracel true. Nejdřívě jsem zkoušel do projektu zakomponovat metodu match. Ta ovšem vracela string místo booleovké hodnoty a~proto jsem ji musel nahradit \verb|=~|. Takto zkonstruovaný výraz by ovšem nefungoval úplně dokonale, neboť při funkční url by vrátil 0. Stačilo výraz lehce poupravit do tvaru !!(url \verb|=~| RegExp ) a~vše fungovalo jak má.
 \begin{minted}{ruby}
 !!(url =~ /^(?:http:\/\/|https:\/\/)?(www\.)?(youtu\.be\/|youtube
 \.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){6,11})(\S*)
 ?$/
 \end{minted}
 \subsubsection{Regulární výraz pro validaci}
-\par Regulární výraz\cite{regexp} je matematický formalismus pro popis slov/vět jazyků. Jedná se tedy o způsob jak formálně popsat určité slovo, případně větu pomocí formálního vyjádření speciálními symboly a skupinami znaků. V ruby\cite{ruby} je popis regulárním výrazem uvozen / na začátku a / na konci. Pomocí dvou lomítek řekneme překladači, že zápis uvnitř lomítek má považovat za regulární výraz.
+\par Regulární výraz\cite{regexp} je matematický formalismus pro popis slov/vět jazyků. Jedná se tedy o způsob jak formálně popsat určité slovo, případně větu pomocí formálního vyjádření speciálními symboly a~skupinami znaků. V ruby\cite{ruby} je popis regulárním výrazem uvozen / na začátku a~/ na konci. Pomocí dvou lomítek řekneme překladači, že zápis uvnitř lomítek má považovat za regulární výraz.
 \par V předchozím regulárním výrazu jsem použil standartní konstrukce, až na jednu vyjímku, která není až tak obvyklá. Jedná se o ?:výraz, což znamená že bude splněno při žádném nebo jednom výskytu výrazu. Všechny ostatní konstrukce jsou popsány v následující tabulce. Ruby má také velmi dobrou webovou podporu pro testování regulárního výrazu na stránkách \url{http://rubular.com/}\cite{michaellovitt}.
 
 \begin{table}[h!]
@@ -42,7 +42,7 @@ module Narra
 \hline
 \verb|^| & Znak pro začátek řádky. \\
 \hline
-\verb|$| & Znak pro konec řádky, např \verb|[a-z]+$| bude uspokojen všemi řetězci tvořenými znaky a-z, který se vyskytne alespoň jednou a bude před koncem řádky. \\
+\verb|$| & Znak pro konec řádky, např \verb|[a-z]+$| bude uspokojen všemi řetězci tvořenými znaky a-z, který se vyskytne alespoň jednou a~bude před koncem řádky. \\
 \hline
 \verb|\A| & Začátek řetězce. \\
 \hline
@@ -62,11 +62,11 @@ module Narra
 \hline
 \verb|\W| & Opak \verb|\w|. \\
 \hline
-\verb|\b| & Shoda musí nastat na hranici číselného a nečíselného znaku. \\
+\verb|\b| & Shoda musí nastat na hranici číselného a~nečíselného znaku. \\
 \hline
 \verb|(...)| & Musí se shodovat přesně s výrazem v (), např (http)* značí nula až nekonečno opakování http. \\
 \hline
-\verb|(a|b)| & Znak a nebo b, a i b mohou být i skupina znaků. \\
+\verb|(a|b)| & Znak a~nebo b, a~i b mohou být i skupina znaků. \\
 \hline
 \verb|a?| & Žádný, nebo právě jeden výskyt a. \\
 \hline
@@ -76,20 +76,20 @@ module Narra
 \hline
 \verb|a{3}| & Přesně tři výskyty znaku a. \\
 \hline
-\verb|a{6,}| & Šest a více výskytů znaku a. \\
+\verb|a{6,}| & Šest a~více výskytů znaku a. \\
 \hline
-\verb|a{3,6}| & Mezi třemi a šesti výskyty znaků a. \\
+\verb|a{3,6}| & Mezi třemi a~šesti výskyty znaků a. \\
 \hline
 \end{tabular}
 \caption[Tabulka skupin symbolů pro regulární výraz]{Tabulka skupin symbolů pro regulární výraz}\label{tab:regexpr}
 \end{table}
 
-\par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Například url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a validitu odkazu. 
+\par Pro správnou funkčnost ověření, zda je url validní či ne, bylo potřeba vyřešit přesměrování. Například url adresa, která nevypadá ani z části jako validní může vést k youtube videu. Příkladem takové adresy je \url{http://goo.gl/TKMZjS}. Pouhým ověřením přes regulární výraz bych neměl šanci zjistit obsah a~validitu odkazu. 
 
 \subsection{Přesměrování}
-\par Přesměrování\cite{nethttp} vyžadovalo novou knihovnu net/http\cite{nethttp}, ze které jsem použil její zabudované metody. Při vytváření jsem nastavil horní hranici přesměrování na 20, neboť drtivá většina proběhne do tří požadavků. Dále jsem potřeboval zajistit, abych se netočil dokola na několika málo url, což by bylo neefektivní a hloupé. Pro maximum dvaceti prvků mi bohatě postačuje pole s lineárním procházením, neboť hash mapa by byla zbytečný luxus. Takto se mohu podívat zda jsem již nenavštívil nějakou url dvakrát, což by znamenalo zacyklené přesměrování a v mém případě vyhození příslušné vyjímky.
-\par První úskalí knihovny net/http\cite{nethttp} nastalo v okamžiku, kdy url neměla v názvu protokol. V tomto případě nebyla schopna rozpoznat server a celý proces zkolaboval. Řešením bylo přidat k url bez protokolu protokol http, který se v případě potřeby přesměruje na https. Kdybych přidal místo pouhého http rovnou https, mohlo by se stát, že některé stránky nebudou fungovat, neboť není zaručené zpětné přesměrování z šifrovaného protokolu na nešifrovaný.
-\par Poslední část přesměrování spočívala ve zjištění příslušného kódu, kterým mi stránka odpověděla na get pořadavek. Při kódu 2xx je vše v pořádku a url lze rovnou vrátit, neboť každý jistě ví, že 2xx kód je symbolem úspěchu. Číslovka začínající trojkou je ovšem zajímavějším protože se jedná o přesměrování. V tomto případě musí programátor zjistit, na kterou stránku se dostane a proces opakovat, než dostane kód 2xx, nebo než zjistí, že je v cyklu. Poslední skupina jsou kódy 4xx a 5xx značící chybu klienta a chybu serveru.
+\par Přesměrování\cite{nethttp} vyžadovalo novou knihovnu net/http\cite{nethttp}, ze které jsem použil její zabudované metody. Při vytváření jsem nastavil horní hranici přesměrování na 20, neboť drtivá většina proběhne do tří požadavků. Dále jsem potřeboval zajistit, abych se netočil dokola na několika málo url, což by bylo neefektivní a~hloupé. Pro maximum dvaceti prvků mi bohatě postačuje pole s lineárním procházením, neboť hash mapa by byla zbytečný luxus. Takto se mohu podívat zda jsem již nenavštívil nějakou url dvakrát, což by znamenalo zacyklené přesměrování a~v mém případě vyhození příslušné vyjímky.
+\par První úskalí knihovny net/http\cite{nethttp} nastalo v okamžiku, kdy url neměla v názvu protokol. V tomto případě nebyla schopna rozpoznat server a~celý proces zkolaboval. Řešením bylo přidat k url bez protokolu protokol http, který se v případě potřeby přesměruje na https. Kdybych přidal místo pouhého http rovnou https, mohlo by se stát, že některé stránky nebudou fungovat, neboť není zaručené zpětné přesměrování z šifrovaného protokolu na nešifrovaný.
+\par Poslední část přesměrování spočívala ve zjištění příslušného kódu, kterým mi stránka odpověděla na get pořadavek. Při kódu 2xx je vše v pořádku a~url lze rovnou vrátit, neboť každý jistě ví, že 2xx kód je symbolem úspěchu. Číslovka začínající trojkou je ovšem zajímavějším protože se jedná o přesměrování. V tomto případě musí programátor zjistit, na kterou stránku se dostane a~proces opakovat, než dostane kód 2xx, nebo než zjistí, že je v cyklu. Poslední skupina jsou kódy 4xx a~5xx značící chybu klienta a~chybu serveru.
 \subsection{Inicializace}
 \par Po zjištění, zda je požadovaná url adresa validní, bylo potřeba ještě provést inicializaci. Zde vytáhnu z YouTube API všechny potřebné informace o videu, které budu dále zpracovávat. Zde je velké množství parametrů, které YouTube API nabízí k výběru. Dále je potřeba vygenerovaný API klíč\cite{apistart}, pomocí něhož YouTube pozná, komu ubrat denní kvótu za požadavek. V následující tabulce je příklad parametrů pro API.
 
@@ -97,7 +97,7 @@ module Narra
 \centering
 \begin{tabular}{| l | l |}
 \hline
-Parametr & Význam \\
+\textbf{Parametr} & \textbf{Význam} \\
 \hline
 snippet & Zobrazí hlavní informace o videu \\
 \hline
@@ -120,36 +120,36 @@ suggestions & Zobrazí návrhy \\
 topicDetails & Zobrazí detaily o tématu videa \\
 \hline
 \end{tabular}
-\caption[Parametry YouTube API a jejich význam]{Parametry YouTube API a jejich význam}\label{tab:apiparams}
+\caption[Parametry YouTube API a~jejich význam]{Parametry YouTube API a~jejich význam}\label{tab:apiparams}
 \end{table}
 
-\par Konrétní požavavek byl na adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=klíč&part=část}\cite{apiurl}, kde @videoid je inicializovaná hodnota pro identifikátor videa, klíč je unikátní API klíč programátora a část je jeden, nebo několik parametrů oddělených čárkou. Zde je nutné vzít v potaz, že za vytížení YouTube serveru se platí a v jistých případech nemalou částí denní přidělené kvóty\cite{googleconsole1} jednotek. Detailní výpočet jsem popsal již v kapitole o YouTube API, zde se o tomto omezení zmiňuji podruhé, neboť jsem nepoužil všech deset parametrů, ale jen čtyři.
-\par Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a~status zobrazí licenci a~informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a~při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API a aplikace by pozbývala na efektivitě.
-\par Při inicializaci je druhý parametr klíč, který slouží 
+\par Konrétní požavavek byl na adresu \url{https://www.googleapis.com/youtube/v3/videos?id=#{@videoid}&key=klíč&part=část}\cite{apiurl}, kde @videoid je inicializovaná hodnota pro identifikátor videa, klíč je unikátní API klíč programátora a~část je jeden, nebo několik parametrů oddělených čárkou. Zde je nutné vzít v potaz, že za vytížení YouTube serveru se platí a~v jistých případech nemalou částí denní přidělené kvóty\cite{googleconsole1} jednotek. Detailní výpočet jsem popsal již v kapitole o YouTube API, zde se o tomto omezení zmiňuji podruhé, neboť jsem nepoužil všech deset parametrů, ale jen čtyři.
+\par Snippet, který napíše o videu většinu informací. ContentDetails byl potřeba pro splnění pořadavků z DublinCore, statistics přidají do obsahu počty sledovaností a~status zobrazí licenci a~informace o sdílení videa. Tyto čtyři položky stačí pro pořadovaná metadata zadavatelem a~při přidání dalších bych zbytečně omezoval maximální počet vrácených položek díky omezení YouTube API a~aplikace by pozbývala na efektivitě.
+\par Při inicializaci je druhý parametr klíč, který slouží k autentizaci v rámci YouTube API. Je nezbytný pro funkčnost, neboť při pořadavku na informace o videu musí mít YouTube možnost snížit konkrétnímu účtu denní kvótu.
 
 \subsection{Parsování JSON objektu}
-\par Nyní již mám k dispozici json objekt a můžu se pustit do práce. První pokus o rozparsování proběhl ručně. Vždy jsem si pomocí methody split rozdělil objekt na pole o dvou částech a druhý index jsem rozdělil znovu podle čárky a odřádkování. Pro lepší představu o vizuální stránce kódu sem dám ukázku vytažení obsahu title.
+\par Nyní již mám k dispozici JSON objekt a~můžu se pustit do práce. První pokus o rozparsování proběhl ručně. Vždy jsem si pomocí methody split rozdělil objekt na pole o dvou částech a~druhý prvek jsem rozdělil znovu podle čárky a~odřádkování. Pro lepší představu o vizuální stránce kódu sem dám ukázku vytažení obsahu title.
 \begin{minted}{ruby}
 pom = @youtube_json_object_snippet.split('"title": "')[1]
 @name = pom.split("\",\n")[0]
 \end{minted}
-\par Toto řešení bylo vcelku jednoduché, rozdělení podle ",\verb|\|n bylo v pořádku, neboť YouTube v popiscích provedlo escapacování těchto znaků a nemohlo dojít k nechtěnnému rozdělení ve špatném místě. Kód ovšem vypadal naprosto hrozně a proto jsem zvolil již hotovou variantu json parseru. Pro porovnání ukázka kódu s knihovnou json.
+\par Toto řešení bylo vcelku jednoduché, rozdělení podle ",\verb|\|n bylo v pořádku, neboť YouTube v popiscích provedlo escapacování těchto znaků a~nemohlo dojít k nechtěnnému rozdělení ve špatném místě. Kód ovšem vypadal naprosto hrozně a~proto jsem zvolil již hotovou variantu JSON parseru. Pro porovnání ukázka kódu s knihovnou JSON.
 \begin{minted}{ruby}
-my_hash = JSON.parse(@youtube)
+my_hash = json.parse(@youtube)
 my_hash["items"][0]["snippet"]["title"]
 \end{minted}
 
-\par Toto řešení je mnohem přehlednější a další programátor má usnadněné pochopení vnitřní struktury json objektu. Po této odbočce se dostáváme zpátky k řešení, kde druhým zmiňovaným způsobem vracím název videa samostatně a ne v komplexní struktuře metadat. Tato alternativa byla zvolena záměrně díky ukládání videí v mateřském projektu. Dalším požadavkem mateřkého projektu bylo vrácení typu videa :video. Tím jsem měl za sebou základní část a mohl jsem pokračovat s metadaty.
+\par Toto řešení je mnohem přehlednější a~další programátor má usnadněné pochopení vnitřní struktury JSON objektu. Po této odbočce se dostáváme zpátky k řešení, kde druhým zmiňovaným způsobem vracím název videa samostatně a~ne v komplexní struktuře metadat. Tato alternativa byla zvolena záměrně díky ukládání videí v mateřském projektu. Dalším požadavkem mateřkého projektu bylo vrácení typu videa :video. Tím jsem měl za sebou základní část a~mohl jsem pokračovat s metadaty.
 
 \subsection{Metadata}
 
-\par Pro popis metadaty jsem vycházel ze struktury DublinCore, která ovšem ne úplně 100\% odpovídala mé představě a představě youtube vývojářů a proto jsem celou kostru musel upravit. 
+\par Pro popis metadaty jsem vycházel ze struktury DublinCore, která ovšem ne úplně 100\% odpovídala mé představě a~představě youtube vývojářů a~proto jsem celou kostru musel upravit. 
 
 \begin{table}[!ht]
 \centering
 \begin{tabular}{| p{.28\textwidth} | p{.65\textwidth} |}
 \hline
-	Název & Obsah \\
+	\textbf{Název} & \textbf{Obsah} \\
 \hline
 \hline
 	videoId & Jednoznačný identifikátor videa. \\
@@ -158,7 +158,7 @@ my_hash["items"][0]["snippet"]["title"]
 \hline
 	channelTitle & Název kanálu, pod kterým je video k dispozici. \\
 \hline
-	publishedAt & Přesný čas vydání a zvěřejnění videa. \\
+	publishedAt & Přesný čas vydání a~zvěřejnění videa. \\
 \hline
 	description & Popis k videu. \\
 \hline
@@ -205,11 +205,11 @@ my_hash["items"][0]["snippet"]["title"]
 \end{table}
 
 \par Jak jste si mohli povšimnout v této tabulce mi chybí titulek videa. Toto řešení je součástí návrhu, kde vracím název videa samostatně pro lepší následné ukládání v mateřském projektu. Dále mám staticky zadefinovaný typ videa, který se nemění. 
-\par Pro správné pochopení, jak extrhahovat metadata ze struktury JSON objektu je potřeba zjistit jak přesně vypadá. Celý objekt je jeden prvek obsahující pole items, ze kterého používám nultý prvek. V této úrovni rozhoduji, zda vyberu data z položky snippet, statistics, contentDetails nebo status. Po zvolení například snippet se dostanu o úroveň hlouběji a mohu vybrat konkrétní položku, například channelId. Stejným způsoben jsou dostupná všechna metadata z JSON objektu, pouze u restrikce zemí vzacím složitější strukturu než string.
-\par Poslední prvek metadat timestamp nenajdu v DublinCore ani v YouTube API, je ovšem důležité ho do dat zařadit, kvůli udržovatelnosti. V mateřské aplikaci bude nejspíš také časový otisk, který není v této chvíli ještě dodělán a proto jsem ho umístil do metadat. Je zde kvůli kontrole, jak staré jsou statistiky u videa a například pro automatizovanou kontrolu metadat starších než dva týdny se tento údaj hodí. Ještě jsem přemýšlel zda bude dobré řešení vložit časový otisk přímo do metadat, nebo raději mimo, ale řešení s otiskem v metadatech vyhrálo. Nejpádnější důvod byl, že při aktualizaci se zavolá pouze metoda metadata a nebude se muset volat žádná další, neboť znovu stahovat video nemá cenu, v případě přidání titulků se zavolá ještě download\_subtitles. Také jméno, identifikátor, url a typ videa se nebudou měnit.
-\par Celkem můj gem poskytuje k jednomu videu 24 metadat a odděleně také jméno videa, typ videa. V součtu se jedná o dvacet šest položek, které umožní rychlejší vyhledávání a relevantní obsah pro každého uživatele, který moje rozšíření využije.
+\par Pro správné pochopení, jak extrhahovat metadata ze struktury JSON objektu je potřeba zjistit jak přesně vypadá. Celý objekt je jeden prvek obsahující pole items, ze kterého používám nultý prvek. V této úrovni rozhoduji, zda vyberu data z položky snippet, statistics, contentDetails nebo status. Po zvolení například snippet se dostanu o úroveň hlouběji a~mohu vybrat konkrétní položku, například channelId. Stejným způsoben jsou dostupná všechna metadata z JSON objektu, pouze u restrikce zemí vzacím složitější strukturu než string.
+\par Poslední prvek metadat timestamp nenajdu v DublinCore ani v YouTube API, je ovšem důležité ho do dat zařadit, kvůli udržovatelnosti. V mateřské aplikaci bude nejspíš také časový otisk, který není v této chvíli ještě dodělán a~proto jsem ho umístil do metadat. Je zde kvůli kontrole, jak staré jsou statistiky u videa a~například pro automatizovanou kontrolu metadat starších než dva týdny se tento údaj hodí. Ještě jsem přemýšlel zda bude dobré řešení vložit časový otisk přímo do metadat, nebo raději mimo, ale řešení s otiskem v metadatech vyhrálo. Nejpádnější důvod byl, že při aktualizaci se zavolá pouze metoda metadata a~nebude se muset volat žádná další, neboť znovu stahovat video nemá cenu, v případě přidání titulků se zavolá ještě download\_subtitles. Také jméno, identifikátor, url a~typ videa se nebudou měnit.
+\par Celkem můj gem poskytuje k jednomu videu 24 metadat a~odděleně také jméno videa, typ videa. V součtu se jedná o dvacet šest položek, které umožní rychlejší vyhledávání a~relevantní obsah pro každého uživatele, který moje rozšíření využije.
 
 \subsection{Dokončení}
-\par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{#{env}/youtube_dl?id=#{@videoid}}. Proměnná env zde zastupuje proměnnou prostředí, která je platná pro NARRA\_YOUTUBE\_SERVER a videoid je již dobře známý identifikátor videa.
-\par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost, která zabezpečí, že po autentizaci pomocí OAuth začne mé stažení titulek fungovat.
+\par Na závěr mi zbývalo vrátit youtube url ve formátu, kde bude pouze video stream bez ostatních elementů, neboť ze standartní url by to bylo moc práce navíc pro jádro aplikace. Pro tento účel souží adresa \url{#{env}/youtube_dl?id=#{@videoid}}. Proměnná env zde zastupuje proměnnou prostředí, která je platná pro NARRA\_YOUTUBE\_SERVER a~videoid je již dobře známý identifikátor videa.
+\par Poslední kus kódu patřil stažení titulek. Na první pohled se to zdálo jako velmi jednoduchý úkol, ovšem stažení titulek stojí 200 jednotek. Proto je potřeba autentizace API klíčem. Tímto klíčem je potřeba být přihlášen již v jádru aplikace při spuštění a~na můj konektor se jen dotázat na stažení titulek. Jelikož je ještě autentizace pomocí OAuth v mateřském projektu nedořešená, předpřipravil jsem můj kus pro stažení titulek pouze pro aktuální funkčnost, která zabezpečí, že po autentizaci pomocí OAuth začne mé stažení titulek fungovat.
 \par Titulky k videu jsou k dispozici z \url{https://www.googleapis.com/youtube/v3/captions/}, za kterou se opět přiřadí identifikátor videa. Bez autorizace ovšem nahlásí stránka chybový kód: \uv{Login Required}.
