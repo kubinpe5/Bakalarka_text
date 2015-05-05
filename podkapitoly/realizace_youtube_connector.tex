@@ -5,7 +5,7 @@
 
 \section{Třída connector}
 \subsection{Založení aplikace}
-\par Před založením aplikace jsem několikrát navštívil R.U.R. v Praze, kde se projekt NARRA vyvýjí a~po vymyšlení mé části aplikace jsem požádal vedoucího práce, aby mi daný projekt předpřipravil, neboť na \texttt{fork} projektu z NARRA jsem neměl dostatečná práva. Pro lehčí kontrolu mého postupu a~možnost verzování jsem zvolil \url{www.github.com}\cite{git}. Po předpřipravení projektu podle mého návrhu jsem si na githubu vytvořil účet, vlastní SSH klíč a~mohl jsem si celou aplikaci k sobě natáhnout a~začít programovat.
+\par Před založením aplikace jsem několikrát navštívil Michala Mocňáka, který se podílí na vývoji projektu NARRA a~po vymyšlení mé části aplikace jsem požádal vedoucího práce, aby mi daný projekt předpřipravil, neboť na \texttt{fork} projektu z NARRA jsem neměl dostatečná práva. Pro lehčí kontrolu mého postupu a~možnost verzování jsem zvolil \url{www.github.com}\cite{git}. Po předpřipravení projektu podle mého návrhu jsem si na githubu vytvořil účet, vlastní SSH klíč a~mohl jsem si celou aplikaci k sobě natáhnout a~začít programovat.
 
 \subsection{Validace a~inicializace}
 \par Vlastní implementace je napsaná v jazyce Ruby a~vývojovém prostředí RubyMine. Pro vyřešení metadat jsem si vytvořil jednu třídu, kterou jsem napojil na narra-core. Dále jsem potřeboval knihovny Net/HTTP a~JSON pro snažší práci.
@@ -50,9 +50,9 @@ module Narra
 \hline
 \verb|.| & Jakýkoli znak. \\
 \hline
-\verb|\s| & Jakýkoli znak tvořený bílími znaky. \\
+\verb|\s| & Jakýkoli znak tvořený bílými znaky. \\
 \hline
-\verb|\S| & Jakýkoli znak netvořený bílími znaky. \\
+\verb|\S| & Jakýkoli znak netvořený bílými znaky. \\
 \hline
 \verb|\d| & Číslice. \\
 \hline
@@ -135,7 +135,7 @@ pom = @youtube_json_object_snippet.split('"title": "')[1]
 \end{minted}
 \par Toto řešení bylo vcelku jednoduché, rozdělení podle ",\verb|\|n bylo v pořádku, neboť YouTube v popiscích provedlo escapacování těchto znaků a~nemohlo dojít k nechtěnnému rozdělení ve špatném místě. Kód ovšem vypadal naprosto hrozně a~proto jsem zvolil již hotovou variantu JSON parseru. Pro porovnání ukázka kódu s knihovnou JSON.
 \begin{minted}{ruby}
-my_hash = json.parse(@youtube)
+my_hash = JSON.parse(@youtube)
 my_hash["items"][0]["snippet"]["title"]
 \end{minted}
 
