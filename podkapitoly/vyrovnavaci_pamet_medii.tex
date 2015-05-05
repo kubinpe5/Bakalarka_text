@@ -26,22 +26,22 @@ urls = ("/.*", "youtube")
 app = web.application(urls, globals())
 
 class youtube:
-    def GET(self):
-        data = web.input(id="0")
-        video = data.id
-        if video == "0":
-            raise web.notfound()
-      
-        filename = subprocess.check_output(['youtube-dl',
-            '--get-filename','-o','"%(id)s.%(ext)s"',video])
-        filename = filename.strip('"\n')
-        
-        os.system("youtube-dl -o /data/%s %s >/dev/null" % (filename, video))
-
-        raise web.seeother('/'+filename)
-
+  def GET(self):
+    data = web.input(id="0")
+    video = data.id
+    if video == "0":
+       raise web.notfound()
+ 
+    filename = subprocess.check_output(['youtube-dl',
+        '--get-filename','-o','"%(id)s.%(ext)s"',video])
+    filename = filename.strip('"\n')
+    
+    os.system("youtube-dl -o /data/%s %s >/dev/null" % (filename, video))
+ 
+    raise web.seeother('/'+filename)
+ 
 if __name__ == "__main__":
-    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
-    app.run()
+  web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+  app.run()
 
 \end{minted}
