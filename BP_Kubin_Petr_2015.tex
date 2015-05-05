@@ -83,7 +83,21 @@
 	\input{podkapitoly/realizace_youtube_connector.tex}
 	\input{podkapitoly/realizace_youtube_spec.tex}
 \begin{conclusion}
-	\input{podkapitoly/zaver.tex}
+	\par Cílem mé práce bylo vytvoření konektoru pro YouTube, který bude umět přidat k videu metadata a poskytnout video k dalšímu zpracování v projektu NARRA. Nejdříve jsem si prostudoval technologie a strukturu projektu, neboť jsem na něj navazoval. Po doménovém návrhu mého konektoru jsem si nastudoval možnosti a omezení YouTube API. YouTube má velmi přehledně strukturovaný popis, což mi usnadnilo kontrolu a návrh omezení na můj konektor.
+	\par V průběhu práce jsem využil již hotové knihovny pro síťovou komunikaci (NET/HTTP) a pro práci s objekty ve formátu JSON. V žádné z knihoven jsem neodhalil nedostatky, které by znemožnili jejich bezproblémové použití a proto jsem si nemusel psát například vlastní JSON parser. Pro přepis meta informací do systému NARRA jsem se seznámil s formou pro popis metadaty DublinCore a byl jsem překvapen, jak daleko do historie sahají základy této metody.
+	\par Dále jsem měl za úkol zpřístupnění videosouboru pro práci se systémem pomocí URL. 
+
+%	Toto rozšíření umožní zpřístupnění videa v systému pro Open Narrative a dokumentaristé spolu s dalšími tvůrci budou moci využívat YouTube jako své osobní primární úložiště, nebo i zdroj cizího materiálu.
+%\par Protože systém NARRA potřebuje přístup k multimediálním souborům pro vytvoření náhledu, je naším úkolem také zpřístupnit videosoubor pomocí URL (mezipaměť) pro zpracování systémem. O samotné vytvoření náhledů a uložení do databáze MongoDB se stará samotný systém, ale základní principy budou vysvětleny i v této práci. V projektu NARRA budou videa dále zpracovávána. Je proto na místě umět nabídnout další videa pro střih, či úpravy, což usnadní práci editorům, kteří neznají dodaná data úplně do detailu a tak sami netuší, jestli se pro další střih nenabízí něco lepšího.
+	
+%	Hlavním úkolem je vytvořit konektor pro YouTube, případně další služby pro sdílení videí.
+%1. Seznamte se s technologiemi použitými v projektu NARRA.
+%2. Prozkoumejte schopnosti YouTube API, včetně omezení (počtu dotazů, přístupu, ...).
+%2a. Na základě znalostí API navrhněte vhodná řešení případných omezení.
+%2b. Navrhněte a otestujte pro tato řešení případná uživatelská rozhraní.
+%3. Vytvořte model komunikace mezi NARRA a YouTube API.
+%4. Navrhněte přepis metainformací do systému NARRA v souladu s Dublin Core.
+%5. Implementujte a otestujte balíček (gem) zajišťující komunikaci s YouTube API v systému NARRA.
 \end{conclusion}
 
 \bibliographystyle{csn690}
