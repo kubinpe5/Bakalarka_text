@@ -31,7 +31,7 @@ module Narra
 ?$/
 \end{minted}
 \subsubsection{Regulární výraz pro validaci}
-\par Regulární výraz\cite{regexp} je matematický formalismus pro popis slov/vět jazyků\note{Přímo definice od Ing. Jana Trdličky}. Jedná se tedy o způsob jak formálně popsat určité slovo, případně větu pomocí formálního vyjádření speciálními symboly a~skupinami znaků. V Ruby\cite{ruby} je popis regulárním výrazem uvozen / na začátku a~/ na konci. Pomocí dvou lomítek řekneme překladači, že zápis uvnitř lomítek má považovat za regulární výraz.
+\par Regulární výraz\cite{regexp} je matematický formalismus pro popis slov/vět jazyků. Jedná se tedy o způsob jak formálně popsat určité slovo, případně větu pomocí formálního vyjádření speciálními symboly a~skupinami znaků. V Ruby\cite{ruby} je popis regulárním výrazem uvozen / na začátku a~/ na konci. Pomocí dvou lomítek řekneme překladači, že zápis uvnitř lomítek má považovat za regulární výraz.
 \par V předchozím regulárním výrazu jsem použil standardní konstrukce, až na jednu výjimku, která není až tak obvyklá. Jedná se o ?:(výraz), což znamená že bude splněno při žádném nebo jednom výskytu (výrazu). Tento způsob zápisu umožňuje kvantifikovat výskyt výrazu uvozené závorkami. Například url \url{https://edux.fit.cvut.cz}, ve které mě nezajímá protokol, vytáhnu regulárním výrazem \texttt{(?:http/https)(edux.fit.cvut.cz)}. Následující tabulka popisuje ostatní konstrukce regulárních výrazů v jazyce Ruby. Pro otestování regulárních výrazů existuje velmi hezky zpracovaná stránka \url{http://rubular.com/}\cite{michaellovitt}.
 
 \begin{table}[h!]
