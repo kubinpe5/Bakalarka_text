@@ -1,7 +1,7 @@
 \section {Testovací nástroj RSpec}
 \subsection{Historie}
 \par RSpec\cite{davidchelimsky2015} je samostatný testovací nástroj psaný v Ruby, který vznikl jako experiment Stevena Bakera, Davida Astelse a~Aslaka Hellesøe. S vývojem začali v roce 2006 na Ruby on Rails, neboť okolo roku 2006 byly Ruby on Rails nejpoužívanější Ruby aplikace. Pomocí RSpec lze testovat libovolný kód v Ruby. První vydaná verze 1.0 vyšla o~rok později a~obsahovala funkce, které má RSpec dodnes. Měl ovšem několik ne úplně efektivně naimplementovaných částí a~proto musel být přepsán.
-\par Koncem roku 2008 zabudoval Chad Humphries \uv{Micronauta}, který v sobě obsahoval systém metadat a~poskytoval mnohem lepší flexibilitu, než RSpec 1.0. V roce 2010 začali David a~Chad pracovat na verzi 2. Chtěli celý projekt rozdělit do modulů, které by pak mohli pužívat samostatně a~navazovat jedním na druhý. Jako jádro posloužil Micronaut, na který navazovali moduly.
+\par Koncem roku 2008 zabudoval Chad Humphries \uv{Micronauta}, který v sobě obsahoval systém metadat a~poskytoval mnohem lepší flexibilitu než RSpec 1.0. V roce 2010 začali David a~Chad pracovat na verzi 2. Chtěli celý projekt rozdělit do modulů, které by pak mohli používat samostatně a~navazovat jedním na druhý. Jako jádro posloužil Micronaut, na který navazovali moduly.
 \par Listopad roku 2012 byl pro vývor RSpecu zlomový. David Asteles se rozhodl od projektu odpojit a~věnovat se jiným věcem. Lídrem pro RSpec se stal Myron Marston a~pro rspec-rails byl nominován Andy Linderman. Nově vytvořený tým začal pracovat na verzi RSpec 3, která byla spojením a~vyčištěním všech předchozích verzí dohromady. Po vydání RSpec 3 odešel Andy Linderman do důchodu. Dodnes se RSpec rozvíjí díky velké komunitě spolupracovníků.
 \par V mé Bakalářské práci budu pracovat s~jádrem testovacího nástroje RSpec a~očekáváními, neboli \texttt{expectations}. V následujících dvou podkapitolách uvedu postup instalace a~ukázky použití daných komponent.
 
@@ -10,7 +10,7 @@
 
 \par Základní struktura popisu testů je velmi podobná hovoru v angličtině. Používají se slova \uv{describe} a~\uv{it}, která mají stejný význam jako v mluveném slově.
 
-\par Dále můžeme deklarovat vnořené skupiny pomocí klíčových slov \texttt{describe}, nebo \texttt{context}. Tato klíčová slova nakonec zavolají příslušné metody, což je pro programátora skryto jazykem DSL, kterým popis testů v systému RSpec rozhodně je.
+\par Dále můžeme deklarovat vnořené skupiny pomocí klíčových slov \texttt{describe}, nebo \texttt{context}. Tato klíčová slova nakonec zavolají příslušné metody, což je pro programátora skryto jazykem DSL, kterým popis testů v systému RSpec rozhodně je. Pro lepší představu, jak se dá napsat test v jazyce Ruby, zde uvádím jednoduchý příklad:
 \begin{minted}{ruby}
 RSpec.describe Order do
   context "with no items" do
@@ -56,7 +56,7 @@ RSpec.describe Order do
 end
 \end{minted}
 
-\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě negativního / neočekávaného výsledku oznámí terminál co očekával a~na dalším řádku co dostal od programu. Velmi snadno se tedy pozná, kde nastala chyba.
+\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat, zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě negativního / neočekávaného výsledku oznámí terminál, co očekával a~na dalším řádku co dostal od programu. Velmi snadno se tedy pozná, kde nastala chyba. V tabulce 2.2 jsou uvedeny příklady testovacích příkazů.
 
 \begin{center}
 \begin{longtable}{| m{.38\textwidth} | m{.55\textwidth} |} 
@@ -134,4 +134,4 @@ end
 \end{center}
 
 \section{Ruby balíčky(gems)}
-\par RubyGems\cite{elmendorfdirk2006} je obdoba linuxového manageru balíčků pro programovací jazyk Ruby. Umožňuje snadné stažení a instalaci balíčků do systému. Stejně jako linuxové balíčky hlídá i tento balíčkovací systém závislosti, verze. Na adrese \url{https://rubygems.org/} se dají nainstalovat publikované balíčky, popřípadě pomocí aplikace bundler, lze získat i nepublikovaný software z repozitáře na GitHubu. 
+\par RubyGems\cite{elmendorfdirk2006} je obdoba linuxového manageru balíčků pro programovací jazyk Ruby. Umožňuje snadné stažení a instalaci balíčků do systému. Stejně jako linuxové balíčky hlídá i tento balíčkovací systém závislosti, verze. Na adrese \url{https://rubygems.org/} se dají nainstalovat publikované balíčky, popřípadě pomocí aplikace bundler lze získat i nepublikovaný software z repozitáře na GitHubu. 
