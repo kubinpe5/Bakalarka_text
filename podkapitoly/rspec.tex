@@ -1,16 +1,16 @@
 \section {Testovací nástroj RSpec}
 \subsection{Historie}
-\par RSpec\cite{davidchelimsky2015} je samostatný testovací nástroj psaný v Ruby, který vznikl jako experiment Stevena Bakera, Davida Astelse a~Aslaka Hellesøe. S vývojem začali v roce 2006 na Ruby on Rails, neboť okolo roku 2006 byly Ruby on Rails nejpoužívanější Ruby aplikace. Pomocí RSpec lze testovat libovolný kód v Ruby. První vydaná verze 1.0 vyšla o~rok později a~obsahovala funkce, které má RSpec dodnes. Měl ovšem několik ne úplně efektivně naimplementovaných částí a~proto musel být přepsán.
+\par RSpec\cite{davidchelimsky2015} je~samostatný testovací nástroj psaný v Ruby, který vznikl jako experiment Stevena Bakera, Davida Astelse a~Aslaka Hellesøe. S vývojem začali v roce 2006 na Ruby on~Rails, neboť okolo roku 2006 byly Ruby on~Rails nejpoužívanější Ruby aplikace. Pomocí RSpec lze testovat libovolný kód v Ruby. První vydaná verze 1.0 vyšla o~rok později a~obsahovala funkce, které má RSpec dodnes. Měl ovšem několik ne úplně efektivně naimplementovaných částí a~proto musel být přepsán.
 \par Koncem roku 2008 zabudoval Chad Humphries \uv{Micronauta}, který v sobě obsahoval systém metadat a~poskytoval mnohem lepší flexibilitu než RSpec 1.0. V roce 2010 začali David a~Chad pracovat na verzi 2. Chtěli celý projekt rozdělit do modulů, které by pak mohli používat samostatně a~navazovat jedním na druhý. Jako jádro posloužil Micronaut, na který navazovali moduly.
-\par Listopad roku 2012 byl pro vývor RSpecu zlomový. David Asteles se rozhodl od projektu odpojit a~věnovat se jiným věcem. Lídrem pro RSpec se stal Myron Marston a~pro rspec-rails byl nominován Andy Linderman. Nově vytvořený tým začal pracovat na verzi RSpec 3, která byla spojením a~vyčištěním všech předchozích verzí dohromady. Po vydání RSpec 3 odešel Andy Linderman do důchodu. Dodnes se RSpec rozvíjí díky velké komunitě spolupracovníků.
+\par Listopad roku 2012 byl pro vývor RSpecu zlomový. David Asteles se~rozhodl od projektu odpojit a~věnovat se~jiným věcem. Lídrem pro RSpec se~stal Myron Marston a~pro rspec-rails byl nominován Andy Linderman. Nově vytvořený tým začal pracovat na verzi RSpec 3, která byla spojením a~vyčištěním všech předchozích verzí dohromady. Po vydání RSpec 3 odešel Andy Linderman do důchodu. Dodnes se~RSpec rozvíjí díky velké komunitě spolupracovníků.
 \par V mé Bakalářské práci budu pracovat s~jádrem testovacího nástroje RSpec a~očekáváními, neboli \texttt{expectations}. V následujících dvou podkapitolách uvedu postup instalace a~ukázky použití daných komponent.
 
 \subsection{RSpec core}
-\par RSpec core je samotné jádro aplikace, na které navazují další moduly. Je nezbytnou částí pro testování. Instalace je složená ze tří příkazů \textit{gem install rspec}; \textit{gem install rspec-core}; \textit{rspec --help} pro nápovědu k nově nainstalovanému softwaru. První příkaz nainstaluje rspec-core, rspec-expectations a~rspec-mocks, což je kompletní balíček pro testování. Druhý příkaz nainstaluje pouze rspec-core, který neobsahuje všechny funkčnosti. 
+\par RSpec core je~samotné jádro aplikace, na které navazují další moduly. Je nezbytnou částí pro testování. Instalace je~složená ze tří příkazů \textit{gem install rspec}; \textit{gem install rspec-core}; \textit{rspec --help} pro nápovědu k nově nainstalovanému softwaru. První příkaz nainstaluje rspec-core, rspec-expectations a~rspec-mocks, což je~kompletní balíček pro testování. Druhý příkaz nainstaluje pouze rspec-core, který neobsahuje všechny funkčnosti. 
 
-\par Základní struktura popisu testů je velmi podobná hovoru v angličtině. Používají se slova \uv{describe} a~\uv{it}, která mají stejný význam jako v mluveném slově.
+\par Základní struktura popisu testů je~velmi podobná hovoru v angličtině. Používají se~slova \uv{describe} a~\uv{it}, která mají stejný význam jako v mluveném slově.
 
-\par Dále můžeme deklarovat vnořené skupiny pomocí klíčových slov \texttt{describe}, nebo \texttt{context}. Tato klíčová slova nakonec zavolají příslušné metody, což je pro programátora skryto jazykem DSL, kterým popis testů v systému RSpec rozhodně je. Pro lepší představu, jak se dá napsat test v jazyce Ruby, zde uvádím jednoduchý příklad:
+\par Dále můžeme deklarovat vnořené skupiny pomocí klíčových slov \texttt{describe}, nebo \texttt{context}. Tato klíčová slova nakonec zavolají příslušné metody, což je~pro programátora skryto jazykem DSL, kterým popis testů v systému RSpec rozhodně je. Pro lepší představu, jak se~dá napsat test v jazyce Ruby, zde uvádím jednoduchý příklad:
 \begin{minted}{ruby}
 RSpec.describe Order do
   context "with no items" do
@@ -29,17 +29,17 @@ end
 Další ukázky z rspec-core podrobněji rozeberu v části testování ke konci mé práce.
 
 \subsection{RSpec expectations}
-\par Instalace balíčku expectations je naprosto stejná jako instalace rspec-core, ba i jednodušší. Stačí napsat pouze \textit{gem install rspec}, pro použití s~rspec core. V případě testování jinými nástroji, které podporují expectations, je příkaz lehce odlišný \textit{gem install rspec-expectations}.
+\par Instalace balíčku expectations je~naprosto stejná jako instalace rspec-core, ba i jednodušší. Stačí napsat pouze \textit{gem install rspec}, pro použití s~rspec core. V případě testování jinými nástroji, které podporují expectations, je~příkaz lehce odlišný \textit{gem install rspec-expectations}.
 
-%Pro použití ve vývojářském režimu master \note{?} je potřeba doplnit na začátek souboru \note{jakého:} tento kus kódu:
+%Pro použití ve vývojářském režimu master \note{?} je~potřeba doplnit na začátek souboru \note{jakého:} tento kus kódu:
 %\begin{minted}{ruby}
 %%w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
 %  gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
 %end
 %\end{minted}
-%\note{Toto je předpokládám výtažek z nějakého Gemfile, který ale funguje jen tehdy, pokud se používá bundler. Respektive aby se tyto gemy nainstalovaly, musí se spustit \texttt{bundle install}, což ale nezaručuje dostupnost daných balíčků přes celý systém, ale jen pro tuto konkrétní aplikaci.}
+%\note{Toto je~předpokládám výtažek z nějakého Gemfile, který ale funguje jen tehdy, pokud se~používá bundler. Respektive aby se~tyto gemy nainstalovaly, musí se~spustit \texttt{bundle install}, což ale nezaručuje dostupnost daných balíčků přes celý systém, ale jen pro tuto konkrétní aplikaci.}
 
-\par Použití je velmi intuitivní, neboť je naprosto shodné s~projevem v angličtině. Velmi hrubá forma je expect(z čeho).operace(s čím). Souvislý kód poté vypadá například takto:
+\par Použití je~velmi intuitivní, neboť je~naprosto shodné s~projevem v angličtině. Velmi hrubá forma je~expect(z čeho).operace(s čím). Souvislý kód poté vypadá například takto:
 \begin{minted}{ruby}
 RSpec.describe Order do
   it "sums the prices of the items in its line items" do
@@ -56,20 +56,20 @@ RSpec.describe Order do
 end
 \end{minted}
 
-\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat, zda součet těchto tří prvků je roven (5.5, :USD). Návratová hodnota testování pomocí expect je true/false. V případě negativního / neočekávaného výsledku oznámí terminál, co očekával a~na dalším řádku co dostal od programu. Velmi snadno se tedy pozná, kde nastala chyba. V tabulce 2.2 jsou uvedeny příklady testovacích příkazů.
+\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat, zda součet těchto tří prvků je~roven (5.5, :USD). Návratová hodnota testování pomocí expect je~true/false. V případě negativního / neočekávaného výsledku oznámí terminál, co očekával a~na dalším řádku co dostal od programu. Velmi snadno se~tedy pozná, kde nastala chyba. V tabulce 2.2 jsou uvedeny příklady testovacích příkazů.
 
 \begin{center}
 \begin{longtable}{| m{.38\textwidth} | m{.55\textwidth} |} 
 \hline
  \textbf{Zabudované komparátory} & \textbf{Význam} \\ 
  \hline
- expect(actual).to eq(exp) & Rovná se ( == ) \\
+ expect(actual).to eq(exp) & Rovná se~( == ) \\
  \hline
- expect(actual).to eql(exp) & Rovná se ( eql? ) \\
+ expect(actual).to eql(exp) & Rovná se~( eql? ) \\
  \hline
  \multicolumn{2}{||c||}{\textbf{Identita}}\\
  \hline
- expect(actual).to be(exp) / to equal() & Zda je identické\\
+ expect(actual).to be(exp) / to equal() & Zda je~identické\\
  \hline
  \multicolumn{2}{||c||}{\textbf{Porovnání}}\\
  \hline
@@ -81,7 +81,7 @@ end
  \hline
  \multicolumn{2}{||c||}{\textbf{Třídy}}\\
  \hline
- expect(actual).to be\_an\_instance\_of(exp) & Jestli se aktuální třída == exp \\
+ expect(actual).to be\_an\_instance\_of(exp) & Jestli se~aktuální třída == exp \\
  \hline
  expect(actual).to be\_a(exp) & Alias k předchozímu \\
  \hline
@@ -134,4 +134,4 @@ end
 \end{center}
 
 \section{Ruby balíčky(gems)}
-\par RubyGems\cite{elmendorfdirk2006} je obdoba linuxového manageru balíčků pro programovací jazyk Ruby. Umožňuje snadné stažení a instalaci balíčků do systému. Stejně jako linuxové balíčky hlídá i tento balíčkovací systém závislosti, verze. Na adrese \url{https://rubygems.org/} se dají nainstalovat publikované balíčky, popřípadě pomocí aplikace bundler lze získat i nepublikovaný software z repozitáře na GitHubu. 
+\par RubyGems\cite{elmendorfdirk2006} je~obdoba linuxového manageru balíčků pro programovací jazyk Ruby. Umožňuje snadné stažení a instalaci balíčků do systému. Stejně jako linuxové balíčky hlídá i tento balíčkovací systém závislosti, verze. Na adrese \url{https://rubygems.org/} se~dají nainstalovat publikované balíčky, popřípadě pomocí aplikace bundler lze získat i nepublikovaný software z repozitáře na GitHubu. 
