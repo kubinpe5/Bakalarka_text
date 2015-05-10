@@ -56,7 +56,7 @@ RSpec.describe Order do
 end
 \end{minted}
 
-\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \textit{:quantity => 2} dvakrát. Proto můžeme otestovat, zda součet těchto tří prvků je~roven (5.5, :USD). Návratová hodnota testování pomocí expect je~true/false. V případě negativního / neočekávaného výsledku oznámí terminál, co očekával a~na dalším řádku co dostal od programu. Velmi snadno se~tedy pozná, kde nastala chyba. V tabulce 2.2\cite{rspectable} jsou uvedeny příklady testovacích příkazů.
+\par Zde máme metodu Order, ve které vytvoříme dvě položky. První má hodnotu (1.1, :USD) a~druhá (2.2, USD), kterou jsme ovšem vytvořili pomocí \texttt{:quantity => 2} dvakrát. Proto můžeme otestovat, zda součet těchto tří prvků je~roven (5.5, :USD). Návratová hodnota testování pomocí expect je~true/false. V případě negativního / neočekávaného výsledku oznámí terminál, co očekával a~na dalším řádku co dostal od programu. Velmi snadno se~tedy pozná, kde nastala chyba. V tabulce 2.2\cite{rspectable} jsou uvedeny příklady testovacích příkazů.
 
 \begin{center}
 \begin{longtable}{| m{.38\textwidth} | m{.55\textwidth} |} 
