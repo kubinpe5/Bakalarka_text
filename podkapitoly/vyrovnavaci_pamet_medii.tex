@@ -17,8 +17,6 @@
 \par Uvnitř NARRY se při vytvoření entity Item vytáhnou z konektoru, který umí danou URL obsloužit (existují uvnitř zabudované konektory pro multimediální soubory dostupné přímo přes HTTP), všechny potřebné informace včetně adresy pro stažení fyzického multimediálního souboru. Jako poslední krok po uložení Itemu dojde ke spuštění zpracování. To znamená, že se do fronty úkolů v~systému SideKick zařadí úloha překódování videa do požadovaných formátů.
 \par Musel jsem tedy pro moje účely vytvořit způsob, jak stáhnout a~dočasně poskytnout YouTube video jako soubor. Vše je postaveno na serveru nginx. Následující ukázka je pouze návrhem kódu, který poběží na serveru. Podílel jsem se pouze na myšlence tohoto kódu, nikoli na skutečné implementaci. Implementací se zabývali programátoři z projektu NARRA. Z mého konektoru jsem pouze musel zajistit, že bude identifikátor videa v~pořádku.
 
-// todo dodělat zalomení ve zdrojáku
-
 \begin{minted}{python}
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
